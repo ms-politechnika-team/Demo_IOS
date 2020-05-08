@@ -14,6 +14,18 @@ import {
   Body,
 } from 'native-base';
 
+// const styles = StyleSheet.create({
+//   item: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     padding: 30,
+//     margin: 2,
+//    borderRadius: 30,
+//     backgroundColor: '#d2f7f1',
+//   },
+// });
+
 export default function Post(props) {
   return (
     <Container style={{backgroundColor: '#29434e'}}>
@@ -23,33 +35,26 @@ export default function Post(props) {
             <Left>
               <Thumbnail source={{uri: 'Image URL'}} />
               <Body>
-                <Text>NativeBase {props.id}</Text>
-                <Text note>{props.name}</Text>
+                <Text>Autor - {props.id}</Text>
+                <Text note>{props.title}</Text>
               </Body>
             </Left>
           </CardItem>
           <CardItem style={{flex: 0, backgroundColor: '#819ca9'}}>
             <Body>
               <Image
-                source={require('./img/design.png')}
+                source={{
+                  uri: props.img,
+                }}
                 style={{height: 200, width: 200, flex: 1}}
               />
-              <Text>
-                {props.name} - W ciągu kolejnych dni możemy liczyć na
-                wyczekiwane opady deszczu. Pojawią się też burze - w nich deszcz
-                może padać intensywnie. W czwartek termometry wskażą nawet 24
-                stopnie Celsjusza. A co czeka nas dalej? W ciągu kolejnych dni
-                możemy liczyć na wyczekiwane opady deszczu. Pojawią się też
-                burze - w nich deszcz może padać intensywnie. W czwartek
-                termometry wskażą nawet 24 stopnie Celsjusza. A co czeka nas
-                dalej?
-              </Text>
+              <Text>{props.text}</Text>
             </Body>
           </CardItem>
           <CardItem style={{flex: 0, backgroundColor: '#819ca9'}}>
             <Left>
-              <Button transparent textStyle={{color: '#f57c00'}}>
-                <Text style={{color: '#f57c00'}}>1,926 stars</Text>
+              <Button transparent textStyle={{color: '#ffeb3b'}}>
+                <Text style={{color: '#ffeb3b'}}>{props.data}</Text>
               </Button>
             </Left>
           </CardItem>
