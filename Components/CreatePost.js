@@ -16,39 +16,14 @@ import {
 } from 'native-base';
 import {
   TouchableHighlight,
-  StyleSheet,
   
 } from 'react-native';
+
 import { TextInput } from 'react-native';
+import {styles} from "./StylesImpl.js"
+import {getStyles} from "./StylesImpl";
 
 
-
-
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-  // alignItems: 'center',
-    // justifyContent: 'center',
-    backgroundColor: '#819ca9',
-  },
-  submit:{
-    marginRight:40,
-    marginLeft:70,
-    marginTop:10,
-    paddingTop:20,
-    paddingBottom:20,
-    backgroundColor:'#29434e',
-    borderRadius:10,
-   width: 200,
-   textAlign:'center'
-  },
-  submitText:{
-      color:'#fff',
-      textAlign:'center',
-  }
-
-
-});
 
 
 
@@ -68,7 +43,7 @@ function GoOnButton({navigation}) {
 export default class CreatePost extends Component  {
   render() {
     return (
-      <Container style={styles.container}>
+      <Container style={getStyles().container}>
         <Content padder>
           <Form>
             <Item floatingLabel
@@ -108,11 +83,19 @@ export default class CreatePost extends Component  {
           
            
            <TouchableHighlight
-  style={styles.submit}
+  style={getStyles().submit}
   
   underlayColor='#fff'>
-    <Text style={styles.submitText} >Send Post</Text>
+    <Text style={getStyles().submitText} >Send Post</Text>
 </TouchableHighlight>
+
+            <TouchableHighlight
+                style={getStyles().submit}
+
+                underlayColor='#fff'>
+              <Text style={getStyles().submitText} >Upload photo</Text>
+            </TouchableHighlight>
+
 <GoOnButton/>
           </Form>
 

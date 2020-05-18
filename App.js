@@ -29,36 +29,14 @@ import {
 import {Button, ListItem, Icon, Left, Body, Right} from 'native-base';
 
 //tutaj są style czyli wszystkie kolory itd
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#819ca9',
-  },
-  submit: {
-    marginRight: 40,
-    marginLeft: 40,
-    marginTop: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    backgroundColor: '#29434e',
-    borderRadius: 10,
-    width: 200,
-    textAlign: 'center',
-  },
-  submitText: {
-    color: '#fff',
-    textAlign: 'center',
-  },
-});
+import {getStyles, reloadStyles, setDarkMode, styles} from "./Components/StylesImpl";
 
 function HomeScreen({navigation}) {
   // panel HOME
   // const [isEnabled, setIsEnabled] = useState(false);
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <View style={styles.container}>
+    <View style={getStyles().container}>
       <Image
         source={{
           uri:
@@ -68,10 +46,10 @@ function HomeScreen({navigation}) {
       />
 
       <TouchableHighlight
-        style={styles.submit}
+        style={getStyles().submit}
         onPress={() => navigation.navigate('Notifications')}
         underlayColor="#fff">
-        <Text style={styles.submitText}>Go to notifications</Text>
+        <Text style={getStyles().submitText}>Go to notifications</Text>
       </TouchableHighlight>
     </View>
   );
@@ -79,12 +57,12 @@ function HomeScreen({navigation}) {
 function NotificationsScreen({navigation}) {
   // panel NOTIFICATOPNS
   return (
-    <View style={styles.container}>
+    <View style={getStyles().container}>
       <TouchableHighlight
-        style={styles.submit}
+        style={getStyles().submit}
         onPress={() => navigation.navigate('CreatePost')}
         underlayColor="#fff">
-        <Text style={styles.submitText}>Create Post</Text>
+        <Text style={getStyles().submitText}>Create Post</Text>
       </TouchableHighlight>
     </View>
   );
@@ -93,14 +71,18 @@ const Drawer = createDrawerNavigator();
 
 export default class App extends React.Component {
   state = {
-    swichValue: true,
+    swichValue: window.darkMode,
   };
 
-  handleToggleSwich = () =>
-    this.setState(state => ({
-      swichValue: !state.swichValue,
-    }));
-
+  handleToggleSwich = () => {
+      this.setState(state => ({
+          swichValue: !state.swichValue,
+      }));
+      setDarkMode(false);
+      reloadStyles();
+      this.forceUpdate();
+      this.setState(this.state);
+  }
   item = ({navigation}) => {
     //to jest cały boczne menu aplikacji
     return (
@@ -130,28 +112,28 @@ export default class App extends React.Component {
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.submitText}>Home</Text>
+          <Text style={getStyles().submitText}>Home</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('Notifications')}>
-          <Text style={styles.submitText}>Notifications</Text>
+          <Text style={getStyles().submitText}>Notifications</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('CreatePost')}>
-          <Text style={styles.submitText}>Create Post</Text>
+          <Text style={getStyles().submitText}>Create Post</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('PostList')}>
-          <Text style={styles.submitText}>Post List</Text>
+          <Text style={getStyles().submitText}>Post List</Text>
         </ListItem>
       </>
     );
@@ -163,7 +145,7 @@ export default class App extends React.Component {
         <Drawer.Navigator
           drawerContent={this.item}
           drawerStyle={{
-            backgroundColor: '#819ca9',
+            backgroundColor: getStyles().container.backgroundColor,
           }}
           drawerContentOptions={{
             activeTintColor: '#ffeb3b',

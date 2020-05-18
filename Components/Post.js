@@ -14,7 +14,9 @@ import {
   Body,
 } from 'native-base';
 
-// const styles = StyleSheet.create({
+import {getStyles} from "./StylesImpl";
+
+// const getStyles() = StyleSheet.create({
 //   item: {
 //     flexDirection: 'row',
 //     justifyContent: 'space-between',
@@ -28,10 +30,10 @@ import {
 
 export default function Post(props) {
   return (
-    <Container style={{backgroundColor: '#29434e'}}>
+    <Container style={getStyles().scrollView}>
       <Content>
-        <Card style={{flex: 0, backgroundColor: '#819ca9'}}>
-          <CardItem style={{flex: 0, backgroundColor: '#819ca9'}}>
+        <Card style={getStyles().scrollView}>
+          <CardItem style={getStyles().postCard}>
             <Left>
               <Thumbnail source={{uri: 'Image URL'}} />
               <Body>
@@ -40,7 +42,7 @@ export default function Post(props) {
               </Body>
             </Left>
           </CardItem>
-          <CardItem style={{flex: 0, backgroundColor: '#819ca9'}}>
+          <CardItem style={getStyles().postCard}>
             <Body>
               <Image
                 source={{
@@ -51,7 +53,7 @@ export default function Post(props) {
               <Text>{props.text}</Text>
             </Body>
           </CardItem>
-          <CardItem style={{flex: 0, backgroundColor: '#819ca9'}}>
+          <CardItem style={getStyles().postCard}>
             <Left>
               <Button transparent textStyle={{color: '#ffeb3b'}}>
                 <Text style={{color: '#ffeb3b'}}>{props.data}</Text>

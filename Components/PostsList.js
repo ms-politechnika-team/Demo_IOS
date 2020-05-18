@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Text, Image, View, StyleSheet, ScrollView} from 'react-native';
 import Post from './Post.js';
+import {getStyles} from "./StylesImpl";
+import {Container} from "native-base";
 
 class PostList extends Component {
   state = {
@@ -29,18 +31,20 @@ class PostList extends Component {
 
   render() {
     return (
-      <View>
+        <Container style={getStyles().scrollView}>
+
+      <View style={getStyles().scrollView}>
         
         
         
         
-        <ScrollView>
+        <ScrollView style={getStyles().scrollView}>
         
           {this.state.news.map((item, index) => (
             // <View key={item.id} style={styles.item}>
             //   <Text>{item.name}</Text>
             // </View>
-            <Post
+            <Post style={getStyles().scrollView}
               key={item.url}
               name={item.author}
               id={item.author}
@@ -52,6 +56,7 @@ class PostList extends Component {
           ))}
         </ScrollView>
       </View>
+        </Container>
     );
   }
 }
