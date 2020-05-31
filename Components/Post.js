@@ -14,7 +14,7 @@ import {
   Body,
 } from 'native-base';
 
-import {getStyles} from "./StylesImpl";
+import {getStyles} from './StylesImpl';
 
 // const getStyles() = StyleSheet.create({
 //   item: {
@@ -35,7 +35,12 @@ export default function Post(props) {
         <Card style={getStyles().scrollView}>
           <CardItem style={getStyles().postCard}>
             <Left>
-              <Thumbnail source={{uri: 'Image URL'}} />
+              <Thumbnail
+                source={{
+                  uri:
+                    'https://www.pinclipart.com/picdir/middle/387-3870193_message-clipart-letter-post-icon-email-unread-png.png',
+                }}
+              />
               <Body>
                 <Text>Autor - {props.id}</Text>
                 <Text note>{props.title}</Text>
@@ -48,7 +53,8 @@ export default function Post(props) {
                 source={{
                   uri: props.img,
                 }}
-                style={{height: 200, width: 200, flex: 1}}
+                style={{height: 200, width: 300, borderRadius: 10, flex: 1}}
+                resizeMode="cover"
               />
               <Text>{props.text}</Text>
             </Body>
