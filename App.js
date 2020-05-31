@@ -7,6 +7,16 @@
  */
 
 import React, {useState} from 'react';
+import {
+  Container,
+  Header,
+  Left,
+  Body,
+  Right,
+  Button,
+  Icon,
+  Title,
+} from 'native-base';
 
 //import {Router, Scene} from 'react-native-router-flux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -26,32 +36,45 @@ import {
   TouchableHighlight,
   Switch,
 } from 'react-native';
-import {Button, ListItem, Icon, Left, Body, Right} from 'native-base';
+import {ListItem} from 'native-base';
+import {Appbar} from 'react-native-paper';
 
 //tutaj są style czyli wszystkie kolory itd
-import {getStyles, reloadStyles, setDarkMode, styles} from "./Components/StylesImpl";
+import {
+  getStyles,
+  reloadStyles,
+  setDarkMode,
+  styles,
+} from './Components/StylesImpl';
 
 function HomeScreen({navigation}) {
   // panel HOME
   // const [isEnabled, setIsEnabled] = useState(false);
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <View style={getStyles().container}>
-      <Image
-        source={{
-          uri:
-            'https://images-na.ssl-images-amazon.com/images/I/51xylwZFuvL.png',
-        }}
-        style={{width: 200, height: 200}}
-      />
+    <>
+      <Appbar.Header style={getStyles().appbar}>
+        <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
+        <Appbar.Content title="Home page" subtitle="" />
+      </Appbar.Header>
 
-      <TouchableHighlight
-        style={getStyles().submit}
-        onPress={() => navigation.navigate('Notifications')}
-        underlayColor="#fff">
-        <Text style={getStyles().submitText}>Go to notifications</Text>
-      </TouchableHighlight>
-    </View>
+      <View style={getStyles().container}>
+        <Image
+          source={{
+            uri:
+              'https://images-na.ssl-images-amazon.com/images/I/51xylwZFuvL.png',
+          }}
+          style={{width: 200, height: 200}}
+        />
+
+        <TouchableHighlight
+          style={getStyles().submit}
+          onPress={() => navigation.navigate('Notifications')}
+          underlayColor="#fff">
+          <Text style={getStyles().submitText}>Go to notifications</Text>
+        </TouchableHighlight>
+      </View>
+    </>
   );
 }
 function NotificationsScreen({navigation}) {
@@ -75,14 +98,14 @@ export default class App extends React.Component {
   };
 
   handleToggleSwich = () => {
-      this.setState(state => ({
-          swichValue: !state.swichValue,
-      }));
-      setDarkMode(false);
-      reloadStyles();
-      this.forceUpdate();
-      this.setState(this.state);
-  }
+    this.setState(state => ({
+      swichValue: !state.swichValue,
+    }));
+    setDarkMode(false);
+    reloadStyles();
+    this.forceUpdate();
+    this.setState(this.state);
+  };
   item = ({navigation}) => {
     //to jest cały boczne menu aplikacji
     return (
