@@ -141,24 +141,35 @@ export default class App extends React.Component {
     );
   };
 
+  async callForStorage() {
+      await Styles.get.init()
+      this.setState(this.state);
+  }
+
   render() {
-    return (
-      <NavigationContainer>
-        <Drawer.Navigator
-          drawerContent={this.item}
-          drawerStyle={{
-            backgroundColor: Styles.get.getStyles().container.backgroundColor,
-          }}
-          drawerContentOptions={{
-            activeTintColor: '#ffeb3b',
-          }}
-          initialRouteName="Home">
-          <Drawer.Screen name="Home" component={HomeScreen} />
-          <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-          <Drawer.Screen name="CreatePost" component={CreatePost} />
-          <Drawer.Screen name="PostList" component={PostList} />
-        </Drawer.Navigator>
-      </NavigationContainer>
-    );
+      if(Styles.get.isReady()) {
+          return (
+              <NavigationContainer>
+                  <Drawer.Navigator
+                      drawerContent={this.item}
+                      drawerStyle={{
+                          backgroundColor: Styles.get.getStyles().container.backgroundColor,
+                      }}
+                      drawerContentOptions={{
+                          activeTintColor: '#ffeb3b',
+                      }}
+                      initialRouteName="Home">
+                      <Drawer.Screen name="Home" component={HomeScreen} />
+                      <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+                      <Drawer.Screen name="CreatePost" component={CreatePost} />
+                      <Drawer.Screen name="PostList" component={PostList} />
+                  </Drawer.Navigator>
+              </NavigationContainer>
+          );
+      } else {
+          this.promise = this.callForStorage()
+          return (null)
+      }
+
   }
 }

@@ -77,16 +77,23 @@ const darkStyles = StyleSheet.create({
 
 export class StylesImpl {
     constructor() {
+        this.m_IsDarkMode = null
+    }
+
+    async init() {
         const getData = async () => {
             try {
                 const value = await AsyncStorage.getItem(darkModeKey)
                 if (value !== null) {
                     this.m_IsDarkMode = JSON.parse(value);
+                    console.log("read!")
+                    console.log(value)
                 } else {
                     const storeData = async () => {
                         try {
                             await AsyncStorage.setItem(darkModeKey, JSON.stringify(false))
                             this.m_IsDarkMode = false
+                            console.log("Init")
                         } catch (e) {
                             // todo: maybe later
                         }
@@ -97,9 +104,9 @@ export class StylesImpl {
             } catch (e) {
                 // todo: maybe later
             }
-        };
+        }
 
-        const promise = getData();
+        await getData()
     }
 
     isDarkMode() {

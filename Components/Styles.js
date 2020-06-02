@@ -5,6 +5,16 @@ export default class Styles {
 
     constructor() {
         this.m_impl = new StylesImpl()
+        this.m_isReady = false
+    }
+
+    async init() {
+        await this.m_impl.init()
+        this.m_isReady = true
+    }
+
+    isReady() {
+        return this.m_isReady
     }
 
     getStyles() {
