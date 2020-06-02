@@ -31,20 +31,20 @@ class PostList extends Component {
 
   render() {
     return (
-        <Container style={Styles.get.getStyles().scrollView}>
+        <Container style={Styles.get().getStyles().scrollView}>
 
-      <View style={Styles.get.getStyles().scrollView}>
+      <View style={Styles.get().getStyles().scrollView}>
         
         
         
         
-        <ScrollView style={Styles.get.getStyles().scrollView}>
+        <ScrollView style={Styles.get().getStyles().scrollView}>
         
           {this.state.news.map((item, index) => (
             // <View key={item.id} style={styles.item}>
             //   <Text>{item.name}</Text>
             // </View>
-            <Post style={Styles.get.getStyles().scrollView}
+            <Post style={Styles.get().getStyles().scrollView}
               key={item.url}
               name={item.author}
               id={item.author}

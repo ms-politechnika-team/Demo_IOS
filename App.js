@@ -37,7 +37,7 @@ function HomeScreen({navigation}) {
   // const [isEnabled, setIsEnabled] = useState(false);
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <View style={Styles.get.getStyles().container}>
+    <View style={Styles.get().getStyles().container}>
       <Image
         source={{
           uri:
@@ -47,10 +47,10 @@ function HomeScreen({navigation}) {
       />
 
       <TouchableHighlight
-        style={Styles.get.getStyles().submit}
+        style={Styles.get().getStyles().submit}
         onPress={() => navigation.navigate('Notifications')}
         underlayColor="#fff">
-        <Text style={Styles.get.getStyles().submitText}>Go to notifications</Text>
+        <Text style={Styles.get().getStyles().submitText}>Go to notifications</Text>
       </TouchableHighlight>
     </View>
   );
@@ -58,17 +58,17 @@ function HomeScreen({navigation}) {
 function NotificationsScreen({navigation}) {
   // panel NOTIFICATOPNS
   return (
-    <View style={Styles.get.getStyles().container}>
+    <View style={Styles.get().getStyles().container}>
       <TouchableHighlight
-        style={Styles.get.getStyles().submit}
+        style={Styles.get().getStyles().submit}
         onPress={() => navigation.navigate('CreatePost')}
         underlayColor="#fff">
-        <Text style={Styles.get.getStyles().submitText}>Create Post</Text>
+        <Text style={Styles.get().getStyles().submitText}>Create Post</Text>
       </TouchableHighlight>
     </View>
   );
 }
-const Drawer = createDrawerNavigator();
+var Drawer = createDrawerNavigator();
 
 export default class App extends React.Component {
   state = {
@@ -76,14 +76,8 @@ export default class App extends React.Component {
   };
 
   handleToggleSwich = () => {
-      this.setState(state => ({
-          swichValue: !state.swichValue,
-      }));
-      // setDarkMode(false);
-      // reloadStyles();
-      Styles.get.changeStyleMode()
-      this.forceUpdate();
-      this.setState(this.state);
+      Styles.get().changeStyleMode()
+      this.setState(this.state)
   }
   item = ({navigation}) => {
     //to jest cały boczne menu aplikacji
@@ -105,7 +99,7 @@ export default class App extends React.Component {
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
               onValueChange={this.handleToggleSwich}
-              value={this.state.swichValue}
+              value={Styles.get().isDarkMode()}
             />
           </Right>
         </ListItem>
@@ -114,46 +108,46 @@ export default class App extends React.Component {
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('Home')}>
-          <Text style={Styles.get.getStyles().submitText}>Home</Text>
+          <Text style={Styles.get().getStyles().submitText}>Home</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('Notifications')}>
-          <Text style={Styles.get.getStyles().submitText}>Notifications</Text>
+          <Text style={Styles.get().getStyles().submitText}>Notifications</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('CreatePost')}>
-          <Text style={Styles.get.getStyles().submitText}>Create Post</Text>
+          <Text style={Styles.get().getStyles().submitText}>Create Post</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('PostList')}>
-          <Text style={Styles.get.getStyles().submitText}>Post List</Text>
+          <Text style={Styles.get().getStyles().submitText}>Post List</Text>
         </ListItem>
       </>
     );
   };
 
   async callForStorage() {
-      await Styles.get.init()
+      await Styles.get().init()
       this.setState(this.state);
   }
 
   render() {
-      if(Styles.get.isReady()) {
+      if(Styles.get().isReady()) {
           return (
               <NavigationContainer>
                   <Drawer.Navigator
                       drawerContent={this.item}
                       drawerStyle={{
-                          backgroundColor: Styles.get.getStyles().container.backgroundColor,
+                          backgroundColor: Styles.get().getStyles().container.backgroundColor,
                       }}
                       drawerContentOptions={{
                           activeTintColor: '#ffeb3b',
@@ -168,7 +162,10 @@ export default class App extends React.Component {
           );
       } else {
           this.promise = this.callForStorage()
-          return (null)
+          return (
+              // todo: loading screen
+              <Text>Marcin, weź tu wpierdol coś ładnego :)</Text>
+          )
       }
 
   }

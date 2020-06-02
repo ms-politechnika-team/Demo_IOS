@@ -76,24 +76,21 @@ const darkStyles = StyleSheet.create({
 });
 
 export class StylesImpl {
-    constructor() {
-        this.m_IsDarkMode = null
-    }
-
-    async init() {
+    async isDarkMode() {
+        var darkMode = null;
         const getData = async () => {
             try {
                 const value = await AsyncStorage.getItem(darkModeKey)
                 if (value !== null) {
-                    this.m_IsDarkMode = JSON.parse(value);
+                    darkMode = JSON.parse(value);
                     console.log("read!")
                     console.log(value)
                 } else {
                     const storeData = async () => {
                         try {
                             await AsyncStorage.setItem(darkModeKey, JSON.stringify(false))
-                            this.m_IsDarkMode = false
                             console.log("Init")
+                            darkMode = false
                         } catch (e) {
                             // todo: maybe later
                         }
@@ -105,28 +102,20 @@ export class StylesImpl {
                 // todo: maybe later
             }
         }
-
-        await getData()
+        await getData();
+        return darkMode
     }
 
-    isDarkMode() {
-        return this.m_IsDarkMode
-    }
-
-    setDarkMode(state) {
-        if (this.m_IsDarkMode !== state) {
-            const storeData = async(state) => {
-                try {
-                    await AsyncStorage.setItem(darkModeKey, JSON.stringify(state))
-                } catch (e) {
-                    // todo: maybe later
-                }
+    async setDarkMode(state) {
+        const storeData = async(state) => {
+            try {
+                await AsyncStorage.setItem(darkModeKey, JSON.stringify(state))
+            } catch (e) {
+                // todo: maybe later
             }
-
-            storeData(state).then(r => {
-                this.m_IsDarkMode = state
-            })
         }
+
+        await storeData(state)
     }
 
     lightModeSheet() {
@@ -136,7 +125,6 @@ export class StylesImpl {
     darkModeSheet() {
         return darkStyles
     }
-
 }
 
 export var styles;
