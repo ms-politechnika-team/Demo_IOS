@@ -81,11 +81,11 @@ export class StylesImpl {
             try {
                 const value = await AsyncStorage.getItem(darkModeKey)
                 if (value !== null) {
-                    this.m_IsDarkMode = value;
+                    this.m_IsDarkMode = JSON.parse(value);
                 } else {
                     const storeData = async () => {
                         try {
-                            await AsyncStorage.setItem(darkModeKey, false)
+                            await AsyncStorage.setItem(darkModeKey, JSON.stringify(false))
                             this.m_IsDarkMode = false
                         } catch (e) {
                             // todo: maybe later
@@ -102,7 +102,7 @@ export class StylesImpl {
         const promise = getData();
     }
 
-    get isDarkMode() {
+    isDarkMode() {
         return this.m_IsDarkMode
     }
 
@@ -110,7 +110,7 @@ export class StylesImpl {
         if (this.m_IsDarkMode !== state) {
             const storeData = async(state) => {
                 try {
-                    await AsyncStorage.setItem(darkModeKey, state)
+                    await AsyncStorage.setItem(darkModeKey, JSON.stringify(state))
                 } catch (e) {
                     // todo: maybe later
                 }

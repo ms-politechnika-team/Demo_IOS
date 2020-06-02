@@ -27,16 +27,17 @@ import {
   Switch,
 } from 'react-native';
 import {Button, ListItem, Icon, Left, Body, Right} from 'native-base';
+import Styles from "./Components/Styles";
 
 //tutaj są style czyli wszystkie kolory itd
-import {getStyles, reloadStyles, setDarkMode, styles} from "./Components/StylesImpl";
+// import {getStyles, reloadStyles, setDarkMode, styles} from "./Components/StylesImpl";
 
 function HomeScreen({navigation}) {
   // panel HOME
   // const [isEnabled, setIsEnabled] = useState(false);
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <View style={getStyles().container}>
+    <View style={Styles.get.getStyles().container}>
       <Image
         source={{
           uri:
@@ -46,10 +47,10 @@ function HomeScreen({navigation}) {
       />
 
       <TouchableHighlight
-        style={getStyles().submit}
+        style={Styles.get.getStyles().submit}
         onPress={() => navigation.navigate('Notifications')}
         underlayColor="#fff">
-        <Text style={getStyles().submitText}>Go to notifications</Text>
+        <Text style={Styles.get.getStyles().submitText}>Go to notifications</Text>
       </TouchableHighlight>
     </View>
   );
@@ -57,12 +58,12 @@ function HomeScreen({navigation}) {
 function NotificationsScreen({navigation}) {
   // panel NOTIFICATOPNS
   return (
-    <View style={getStyles().container}>
+    <View style={Styles.get.getStyles().container}>
       <TouchableHighlight
-        style={getStyles().submit}
+        style={Styles.get.getStyles().submit}
         onPress={() => navigation.navigate('CreatePost')}
         underlayColor="#fff">
-        <Text style={getStyles().submitText}>Create Post</Text>
+        <Text style={Styles.get.getStyles().submitText}>Create Post</Text>
       </TouchableHighlight>
     </View>
   );
@@ -78,8 +79,9 @@ export default class App extends React.Component {
       this.setState(state => ({
           swichValue: !state.swichValue,
       }));
-      setDarkMode(false);
-      reloadStyles();
+      // setDarkMode(false);
+      // reloadStyles();
+      Styles.get.changeStyleMode()
       this.forceUpdate();
       this.setState(this.state);
   }
@@ -112,28 +114,28 @@ export default class App extends React.Component {
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('Home')}>
-          <Text style={getStyles().submitText}>Home</Text>
+          <Text style={Styles.get.getStyles().submitText}>Home</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('Notifications')}>
-          <Text style={getStyles().submitText}>Notifications</Text>
+          <Text style={Styles.get.getStyles().submitText}>Notifications</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('CreatePost')}>
-          <Text style={getStyles().submitText}>Create Post</Text>
+          <Text style={Styles.get.getStyles().submitText}>Create Post</Text>
         </ListItem>
 
         <ListItem
           icon
           style={{marginTop: 30}}
           onPress={() => navigation.navigate('PostList')}>
-          <Text style={getStyles().submitText}>Post List</Text>
+          <Text style={Styles.get.getStyles().submitText}>Post List</Text>
         </ListItem>
       </>
     );
@@ -145,7 +147,7 @@ export default class App extends React.Component {
         <Drawer.Navigator
           drawerContent={this.item}
           drawerStyle={{
-            backgroundColor: getStyles().container.backgroundColor,
+            backgroundColor: Styles.get.getStyles().container.backgroundColor,
           }}
           drawerContentOptions={{
             activeTintColor: '#ffeb3b',
