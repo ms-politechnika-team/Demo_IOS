@@ -14,7 +14,6 @@ import {
   Body,
 } from 'native-base';
 
-import {getStyles} from "./StylesImpl";
 
 // const getStyles() = StyleSheet.create({
 //   item: {
@@ -30,10 +29,10 @@ import {getStyles} from "./StylesImpl";
 
 export default function Post(props) {
   return (
-    <Container style={getStyles().scrollView}>
+    <Container style={Styles.get.getStyles().scrollView}>
       <Content>
-        <Card style={getStyles().scrollView}>
-          <CardItem style={getStyles().postCard}>
+        <Card style={Styles.get.getStyles().scrollView}>
+          <CardItem style={Styles.get.getStyles().postCard}>
             <Left>
               <Thumbnail source={{uri: 'Image URL'}} />
               <Body>
@@ -42,7 +41,7 @@ export default function Post(props) {
               </Body>
             </Left>
           </CardItem>
-          <CardItem style={getStyles().postCard}>
+          <CardItem style={Styles.get.getStyles().postCard}>
             <Body>
               <Image
                 source={{
@@ -53,7 +52,7 @@ export default function Post(props) {
               <Text>{props.text}</Text>
             </Body>
           </CardItem>
-          <CardItem style={getStyles().postCard}>
+          <CardItem style={Styles.get.getStyles().postCard}>
             <Left>
               <Button transparent textStyle={{color: '#ffeb3b'}}>
                 <Text style={{color: '#ffeb3b'}}>{props.data}</Text>

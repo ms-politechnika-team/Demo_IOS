@@ -21,7 +21,7 @@ import {
 
 import { TextInput } from 'react-native';
 import {styles} from "./StylesImpl.js"
-import {getStyles} from "./StylesImpl";
+// import {getStyles} from "./StylesImpl";
 
 
 
@@ -43,7 +43,7 @@ function GoOnButton({navigation}) {
 export default class CreatePost extends Component  {
   render() {
     return (
-      <Container style={getStyles().container}>
+      <Container style={Styles.get.getStyles().container}>
         <Content padder>
           <Form>
             <Item floatingLabel
@@ -83,17 +83,17 @@ export default class CreatePost extends Component  {
           
            
            <TouchableHighlight
-  style={getStyles().submit}
+  style={Styles.get.getStyles().submit}
   
   underlayColor='#fff'>
-    <Text style={getStyles().submitText} >Send Post</Text>
+    <Text style={Styles.get.getStyles().submitText} >Send Post</Text>
 </TouchableHighlight>
 
             <TouchableHighlight
-                style={getStyles().submit}
+                style={Styles.get.getStyles().submit}
 
                 underlayColor='#fff'>
-              <Text style={getStyles().submitText} >Upload photo</Text>
+              <Text style={Styles.get.getStyles().submitText} >Upload photo</Text>
             </TouchableHighlight>
 
 <GoOnButton/>

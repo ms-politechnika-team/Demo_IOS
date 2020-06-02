@@ -1,7 +1,11 @@
 import {StyleSheet} from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 
 export var darkMode = false;
 
+const darkModeKey = '@styles_IsDarkMode'
+
+// it's a fucking joke
 const lightStyles = StyleSheet.create({
     container: {
         flex: 1,
@@ -71,21 +75,78 @@ const darkStyles = StyleSheet.create({
 
 });
 
+export class StylesImpl {
+    constructor() {
+        const getData = async () => {
+            try {
+                const value = await AsyncStorage.getItem(darkModeKey)
+                if (value !== null) {
+                    this.m_IsDarkMode = value;
+                } else {
+                    const storeData = async () => {
+                        try {
+                            await AsyncStorage.setItem(darkModeKey, false)
+                            this.m_IsDarkMode = false
+                        } catch (e) {
+                            // todo: maybe later
+                        }
+                    }
+
+                    await storeData()
+                }
+            } catch (e) {
+                // todo: maybe later
+            }
+        };
+
+        const promise = getData();
+    }
+
+    get isDarkMode() {
+        return this.m_IsDarkMode
+    }
+
+    setDarkMode(state) {
+        if (this.m_IsDarkMode !== state) {
+            const storeData = async(state) => {
+                try {
+                    await AsyncStorage.setItem(darkModeKey, state)
+                } catch (e) {
+                    // todo: maybe later
+                }
+            }
+
+            storeData(state).then(r => {
+                this.m_IsDarkMode = state
+            })
+        }
+    }
+
+    lightModeSheet() {
+        return lightStyles
+    }
+
+    darkModeSheet() {
+        return darkStyles
+    }
+
+}
+
 export var styles;
 
-function loadStyles() {
-    styles = darkMode ? darkStyles : lightStyles;
-}
-
-export function reloadStyles() {
-    loadStyles();
-}
-
-loadStyles();
-export function setDarkMode(isDarkMode) {
-    darkMode = isDarkMode;
-}
-
-export function getStyles() {
-    return styles;
-}
+// function loadStyles() {
+//     styles = darkMode ? darkStyles : lightStyles;
+// }
+//
+// export function reloadStyles() {
+//     loadStyles();
+// }
+//
+// loadStyles();
+// export function setDarkMode(isDarkMode) {
+//     darkMode = isDarkMode;
+// }
+//
+// export function getStyles() {
+//     return styles;
+// }
