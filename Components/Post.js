@@ -13,6 +13,7 @@ import {
   Left,
   Body,
 } from 'native-base';
+import Styles from "./Styles";
 
 
 // const getStyles() = StyleSheet.create({

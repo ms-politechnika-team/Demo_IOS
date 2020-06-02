@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 
 import { TextInput } from 'react-native';
-import {styles} from "./StylesImpl.js"
+import Styles from "./Styles";
 // import {getStyles} from "./StylesImpl";
 
 
@@ -30,10 +30,10 @@ import {styles} from "./StylesImpl.js"
 function GoOnButton({navigation}) {
   return (
 <TouchableHighlight
-  style={styles.submit}
+  style={Styles.get().getStyles().submit}
   //onPress={() => navigation.navigate('PostList')} // nie wiem czemu to nie działa, powinno od razu włączć widok postów
   underlayColor='#fff'>
-    <Text style={styles.submitText} >Go to Post List</Text>
+    <Text style={Styles.get().getStyles().submitText} >Go to Post List</Text>
 </TouchableHighlight>
  
   );
