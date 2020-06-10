@@ -80,14 +80,21 @@ function HomeScreen({navigation}) {
 function NotificationsScreen({navigation}) {
   // panel NOTIFICATOPNS
   return (
-    <View style={getStyles().container}>
-      <TouchableHighlight
-        style={getStyles().submit}
-        onPress={() => navigation.navigate('CreatePost')}
-        underlayColor="#fff">
-        <Text style={getStyles().submitText}>Create Post</Text>
-      </TouchableHighlight>
-    </View>
+    <>
+      <Appbar.Header style={getStyles().appbar}>
+        <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
+        <Appbar.Content title="Notifications" subtitle="" />
+      </Appbar.Header>
+
+      <View style={getStyles().container}>
+        <TouchableHighlight
+          style={getStyles().submit}
+          onPress={() => navigation.navigate('CreatePost')}
+          underlayColor="#fff">
+          <Text style={getStyles().submitText}>Create Post</Text>
+        </TouchableHighlight>
+      </View>
+    </>
   );
 }
 const Drawer = createDrawerNavigator();

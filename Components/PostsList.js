@@ -1,18 +1,23 @@
 import React, {Component} from 'react';
 import {Text, Image, View, StyleSheet, ScrollView} from 'react-native';
 import Post from './Post.js';
-import {getStyles} from "./StylesImpl";
-import {Container} from "native-base";
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {getStyles} from './StylesImpl';
+import {Container} from 'native-base';
+import {Appbar} from 'react-native-paper';
+
+Navbar = ({navigation}) => {
+  return (
+    <Appbar.Header style={getStyles().appbar}>
+      <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
+      <Appbar.Content title="Home page" subtitle="" />
+    </Appbar.Header>
+  );
+};
 
 class PostList extends Component {
   state = {
-    names: [
-      {name: 'Ben', id: 1},
-      {name: 'Susan', id: 2},
-      {name: 'Robert', id: 3},
-      {name: 'Mary', id: 4},
-      {name: 'Daniel', id: 5},
-    ],
     news: [],
   };
 
@@ -31,35 +36,29 @@ class PostList extends Component {
 
   render() {
     return (
-        <Container style={getStyles().scrollView}>
-
-      <View style={getStyles().scrollView}>
-        
-        
-        
-        
-        <ScrollView style={getStyles().scrollView}>
-        
-          {this.state.news.map((item, index) => (
-            // <View key={item.id} style={styles.item}>
-            //   <Text>{item.name}</Text>
-            // </View>
-            <Post style={getStyles().scrollView}
-              key={item.url}
-              name={item.author}
-              id={item.author}
-              text={item.content}
-              data={item.publishedAt}
-              title={item.title}
-              img={item.urlToImage}
-            />
-          ))}
-        </ScrollView>
-      </View>
-        </Container>
+      <Container style={getStyles().scrollView}>
+        <Navbar />
+        <View style={getStyles().scrollView}>
+          <ScrollView style={getStyles().scrollView}>
+            {this.state.news.map((item, index) => (
+              // <View key={item.id} style={styles.item}>
+              //   <Text>{item.name}</Text>
+              // </View>
+              <Post
+                style={getStyles().scrollView}
+                key={item.url}
+                name={item.author}
+                id={item.author}
+                text={item.content}
+                data={item.publishedAt}
+                title={item.title}
+                img={item.urlToImage}
+              />
+            ))}
+          </ScrollView>
+        </View>
+      </Container>
     );
   }
 }
 export default PostList;
-
-

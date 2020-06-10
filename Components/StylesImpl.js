@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-export var darkMode = false;
+export var darkMode = true;
 
 const lightStyles = StyleSheet.create({
   container: {
