@@ -37,7 +37,8 @@ export default class CreatePost extends Component {
     super(props);
 
     this.state = {
-      showCamera: false
+      showCamera: false,
+      photo: null
     }
   }
   render() {
@@ -137,7 +138,8 @@ export default class CreatePost extends Component {
       console.log(data.uri);
       this.setState({
         ...this.state,
-        showCamera: false
+        showCamera: false,
+        photo: data.uri
       })
     }
   };
