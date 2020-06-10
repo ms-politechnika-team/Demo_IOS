@@ -14,11 +14,12 @@ import {
   Button,
   Text,
 } from 'native-base';
-import {TouchableHighlight} from 'react-native';
+import {TouchableHighlight, TouchableOpacity, View} from 'react-native';
 
 import {TextInput} from 'react-native';
 import {styles} from './StylesImpl.js';
-import {getStyles} from './StylesImpl';
+import {cameraStyles, getStyles} from './StylesImpl';
+import {RNCamera} from "react-native-camera";
 
 function GoOnButton({navigation}) {
   return (
@@ -32,7 +33,49 @@ function GoOnButton({navigation}) {
 }
 
 export default class CreatePost extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showCamera: false
+    }
+  }
   render() {
+    if (this.state.showCamera) {
+      return (
+          <View style={cameraStyles.container}>
+        <RNCamera
+            ref={(ref) => {
+              this.camera = ref;
+            }}
+            style={cameraStyles.preview}
+            type={RNCamera.Constants.Type.back}
+            flashMode={RNCamera.Constants.FlashMode.on}
+            androidCameraPermissionOptions={{
+              title: 'Permission to use camera',
+              message: 'We need your permission to use your camera',
+              buttonPositive: 'Ok',
+              buttonNegative: 'Cancel',
+            }}
+            androidRecordAudioPermissionOptions={{
+              title: 'Permission to use audio recording',
+              message: 'We need your permission to use your audio',
+              buttonPositive: 'Ok',
+              buttonNegative: 'Cancel',
+            }}
+            onGoogleVisionBarcodesDetected={({ barcodes }) => {
+              console.log(barcodes);
+            }}
+        />
+        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableOpacity onPress={this.takePicture.bind(this)} style={cameraStyles.capture}>
+            <Text style={{ fontSize: 14 }}> SNAP </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      );
+    }
+
     return (
       <Container style={getStyles().container}>
         <Content padder>
@@ -69,7 +112,12 @@ export default class CreatePost extends Component {
               <Text style={getStyles().submitText}>Send Post</Text>
             </TouchableHighlight>
 
-            <TouchableHighlight style={getStyles().submit} underlayColor="#fff">
+            <TouchableHighlight style={getStyles().submit} underlayColor="#fff" onPress={() => this.setState(
+                {
+                  ...this.state,
+                  showCamera: true
+                }
+            )}>
               <Text style={getStyles().submitText}>Upload photo</Text>
             </TouchableHighlight>
 
@@ -78,5 +126,19 @@ export default class CreatePost extends Component {
         </Content>
       </Container>
     );
+
+
   }
+
+  takePicture = async () => {
+    if (this.camera) {
+      const options = { quality: 0.5, base64: true };
+      const data = await this.camera.takePictureAsync(options);
+      console.log(data.uri);
+      this.setState({
+        ...this.state,
+        showCamera: false
+      })
+    }
+  };
 }
