@@ -28,12 +28,12 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableHighlight,
-  Switch,
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    TouchableHighlight,
+    Switch, Alert,
 } from 'react-native';
 import {ListItem} from 'native-base';
 import {Appbar} from 'react-native-paper';
@@ -46,6 +46,7 @@ import {
   styles,
 } from './Components/StylesImpl';
 import {Token} from "./Utils/Token";
+import {fetchData, fetchDataPost, fetchPosts, uploadData} from "./Utils/BackendConnection";
 
 function HomeScreen({navigation}) {
   return (
@@ -112,11 +113,14 @@ export default class App extends React.Component {
 
         this.state = {
             switchValue: window.darkMode,
-            token: new Token()
+            token: new Token(),
+            username: "",
+            passwd: ""
         };
     }
 
     LogInScreen = ({navigation}) => {
+        const url = `http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api`;
         return (
             <>
                 <Appbar.Header style={getStyles().appbar}>
@@ -132,7 +136,7 @@ export default class App extends React.Component {
                                 borderColor: '#29434e',
                             }}>
                             <Label>Username</Label>
-                            <Input />
+                            <Input onChangeText={(text) => this.state.username = text }/>
                         </Item>
                         <Item
                             floatingLabel
@@ -140,15 +144,27 @@ export default class App extends React.Component {
                                 borderColor: '#29434e',
                             }}>
                             <Label>Password</Label>
-                            <Input />
+                            <Input onChangeText={(text) => this.state.passwd = text }/>
                         </Item>
 
                         <TouchableHighlight
                             style={getStyles().submit}
                             underlayColor="#fff"
                             onPress={() => {
-                                this.state.token.setToken("333")
-                                navigation.navigate('Home')
+                                fetchDataPost(
+                                    `${url}/users/signin`,
+                                    {
+                                        email: this.state.username,
+                                        password: this.state.passwd
+                                    }
+                                ).then((response) => {
+                                    if (typeof response.token !== 'undefined') {
+                                        this.state.token.setToken(response.token)
+                                        navigation.navigate('Home')
+                                    } else {
+                                        Alert.alert("Cannot Log In", response.stack, [{text: "OK"}], {cancelable: true})
+                                    }
+                                })
                             }}>
                             <Text style={getStyles().submitText}>Log In</Text>
                         </TouchableHighlight>
@@ -157,8 +173,30 @@ export default class App extends React.Component {
                             style={getStyles().submit}
                             underlayColor="#fff"
                             onPress={() => {
-                                this.state.token.setToken("333")
-                                navigation.navigate('Home')
+                                fetchDataPost(
+                                    `${url}/users/signup`,
+                                    {
+                                        email: this.state.username,
+                                        password: this.state.passwd
+                                    }
+                                ).then((response) => {
+                                    if (typeof response.email !== 'undefined') {
+                                        fetchDataPost(`${url}/users/signin`,
+                                            {
+                                                email: response.email,
+                                                password: response.password
+                                            }).then(response => {
+                                            if (typeof response.token !== 'undefined') {
+                                                this.state.token.setToken(response.token)
+                                                navigation.navigate('Home')
+                                            } else {
+                                                Alert.alert("Cannot Sign Up", response.stack, [{text: "OK"}], {cancelable: true})
+                                            }
+                                        })
+                                    } else {
+                                        Alert.alert("Cannot Sign Up", response.stack, [{text: "OK"}], {cancelable: true})
+                                    }
+                                })
                             }}>
                             <Text style={getStyles().submitText}>Sign Up</Text>
                         </TouchableHighlight>
