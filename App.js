@@ -27,6 +27,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import PostList from './Components/PostsList.js';
 import CreatePost from './Components/CreatePost.js';
+import Unlogged from './Components/Unlogged.js';
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -79,6 +80,7 @@ function HomeScreen({navigation}) {
     </>
   );
 }
+
 function NotificationsScreen({navigation}) {
   // panel NOTIFICATOPNS
   return (
@@ -93,12 +95,13 @@ function NotificationsScreen({navigation}) {
           style={getStyles().submit}
           onPress={() => navigation.navigate('CreatePost')}
           underlayColor="#fff">
-          <Text style={getStyles().submitText}>Create Post</Text>
+          <Text style={getStyles().submitText}>Login to access</Text>
         </TouchableHighlight>
       </View>
     </>
   );
 }
+
 const Drawer = createDrawerNavigator();
 
 Navbar = () => {
@@ -263,6 +266,12 @@ export default class App extends React.Component {
           onPress={() => navigation.navigate('PostList', {nav: 'cs'})}>
           <Text style={getStyles().submitText}>Post List</Text>
         </ListItem>
+        <ListItem
+          icon
+          style={{marginTop: 30}}
+          onPress={() => navigation.navigate('Unlogged')}>
+          <Text style={getStyles().submitText}>Unlogged</Text>
+        </ListItem>
       </>
     );
   };
@@ -282,6 +291,7 @@ export default class App extends React.Component {
           <Drawer.Screen name="LogIn" component={this.LogInScreen} />
           <Drawer.Screen name="Home" component={HomeScreen} />
           <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+          <Drawer.Screen name="Unlogged" component={Unlogged} />
           <Drawer.Screen
             name="CreatePost"
             component={() => new CreatePost({token: this.state.token})}

@@ -55,7 +55,7 @@ const darkStyles = StyleSheet.create({
     backgroundColor: '#6d6d6d',
   },
   submit: {
-    marginRight: 40,
+    marginRight: 70,
     marginLeft: 70,
     marginTop: 10,
     paddingTop: 20,
