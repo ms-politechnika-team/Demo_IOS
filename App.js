@@ -137,7 +137,7 @@ export default class App extends React.Component {
               style={{
                 borderColor: '#29434e',
               }}>
-              <Label>Username</Label>
+              <Label>Email</Label>
               <Input />
             </Item>
             <Item
@@ -146,7 +146,7 @@ export default class App extends React.Component {
                 borderColor: '#29434e',
               }}>
               <Label>Password</Label>
-              <Input />
+              <Input secureTextEntry={true} />
             </Item>
 
             <TouchableHighlight
@@ -188,9 +188,16 @@ export default class App extends React.Component {
     let logInOutButton = !this.state.token.isValid() ? (
       <ListItem
         icon
-        style={{marginTop: 30}}
-        onPress={() => navigation.navigate('LogIn')}>
-        <Text style={getStyles().submitText}>Log In</Text>
+        onPress={() => {
+          navigation.navigate('LogIn');
+        }}>
+        <Left />
+        <Body>
+          <Text>LogIn</Text>
+        </Body>
+        <Right>
+          <Icon active style={{fontSize: 30}} name="contact" />
+        </Right>
       </ListItem>
     ) : (
       <ListItem

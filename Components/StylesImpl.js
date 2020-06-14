@@ -49,6 +49,7 @@ const darkStyles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: '#1b1b1b',
+    borderColor: 'black',
   },
   postCard: {
     backgroundColor: '#6d6d6d',
