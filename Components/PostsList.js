@@ -28,11 +28,11 @@ class PostList extends Component {
   //http://newsapi.org/v2/top-headlines?country=pl&category=technology&apiKey=2728c77ea2384d4ab5010b84c19b27d3
   fetchData = async () => {
     const response = await fetch(
-      'http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/newest ',
+      'http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/newest',
     );
     const json = await response.json();
 
-    this.setState({news: json.articles});
+    this.setState({news: json});
     console.log(this.state.news);
   };
 
