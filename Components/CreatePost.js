@@ -43,11 +43,13 @@ Navbar = ({navigation}) => {
 
 export default class CreatePost extends Component {
   constructor(props) {
+    console.log("TOKEN App = ", props.token.getToken())
     super(props);
 
     this.state = {
       showCamera: false,
       photo: null,
+      token: props.token
     };
   }
   render() {
@@ -125,7 +127,8 @@ export default class CreatePost extends Component {
 
               <TouchableHighlight
                 style={getStyles().submit}
-                underlayColor="#fff">
+                underlayColor="#fff"
+                onPress={() => {console.log(this.state.token)}}>
                 <Text style={getStyles().submitText}>Send Post</Text>
               </TouchableHighlight>
 
