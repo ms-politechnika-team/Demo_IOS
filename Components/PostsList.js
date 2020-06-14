@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Text, Image, View, StyleSheet, ScrollView} from 'react-native';
 import Post from './Post.js';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+
 import {getStyles} from './StylesImpl';
 import {Container} from 'native-base';
 import {Appbar} from 'react-native-paper';

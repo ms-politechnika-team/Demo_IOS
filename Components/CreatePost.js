@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {Picker} from 'native-base';
+import {Appbar} from 'react-native-paper';
 import {
   Container,
   Header,
@@ -19,7 +20,7 @@ import {TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native';
 import {styles} from './StylesImpl.js';
 import {cameraStyles, getStyles} from './StylesImpl';
-import {RNCamera} from "react-native-camera";
+import {RNCamera} from 'react-native-camera';
 
 function GoOnButton({navigation}) {
   return (
@@ -31,6 +32,14 @@ function GoOnButton({navigation}) {
     </TouchableHighlight>
   );
 }
+Navbar = ({navigation}) => {
+  return (
+    <Appbar.Header style={getStyles().appbar}>
+      <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
+      <Appbar.Content title="Home page" subtitle="" />
+    </Appbar.Header>
+  );
+};
 
 export default class CreatePost extends Component {
   constructor(props) {
@@ -38,15 +47,15 @@ export default class CreatePost extends Component {
 
     this.state = {
       showCamera: false,
-      photo: null
-    }
+      photo: null,
+    };
   }
   render() {
     if (this.state.showCamera) {
       return (
-          <View style={cameraStyles.container}>
-        <RNCamera
-            ref={(ref) => {
+        <View style={cameraStyles.container}>
+          <RNCamera
+            ref={ref => {
               this.camera = ref;
             }}
             style={cameraStyles.preview}
@@ -64,83 +73,92 @@ export default class CreatePost extends Component {
               buttonPositive: 'Ok',
               buttonNegative: 'Cancel',
             }}
-            onGoogleVisionBarcodesDetected={({ barcodes }) => {
+            onGoogleVisionBarcodesDetected={({barcodes}) => {
               console.log(barcodes);
             }}
-        />
-        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity onPress={this.takePicture.bind(this)} style={cameraStyles.capture}>
-            <Text style={{ fontSize: 14 }}> SNAP </Text>
-          </TouchableOpacity>
+          />
+          <View
+            style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableOpacity
+              onPress={this.takePicture.bind(this)}
+              style={cameraStyles.capture}>
+              <Text style={{fontSize: 14}}> SNAP </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
       );
     }
 
     return (
-      <Container style={getStyles().container}>
-        <Content padder>
-          <Form>
-            <Item
-              floatingLabel
-              style={{
-                borderColor: '#29434e',
-              }}>
-              <Label>Username</Label>
-              <Input />
-            </Item>
-            <Item
-              floatingLabel
-              style={{
-                borderColor: '#29434e',
-              }}>
-              <Label>Password</Label>
-              <Input />
-            </Item>
+      <>
+        <Navbar />
+        <Container style={getStyles().container}>
+          <Content padder>
+            <Form>
+              <Item
+                floatingLabel
+                style={{
+                  borderColor: '#29434e',
+                }}>
+                <Label>Username</Label>
+                <Input />
+              </Item>
+              <Item
+                floatingLabel
+                style={{
+                  borderColor: '#29434e',
+                }}>
+                <Label>Password</Label>
+                <Input />
+              </Item>
 
-            <Textarea
-              style={{
-                borderRadius: 20,
-                borderColor: '#29434e',
-                marginTop: 20,
-              }}
-              rowSpan={5}
-              bordered
-              placeholder="Textarea"
-            />
+              <Textarea
+                style={{
+                  borderRadius: 20,
+                  borderColor: '#29434e',
+                  marginTop: 20,
+                }}
+                rowSpan={5}
+                bordered
+                placeholder="Textarea"
+              />
 
-            <TouchableHighlight style={getStyles().submit} underlayColor="#fff">
-              <Text style={getStyles().submitText}>Send Post</Text>
-            </TouchableHighlight>
+              <TouchableHighlight
+                style={getStyles().submit}
+                underlayColor="#fff">
+                <Text style={getStyles().submitText}>Send Post</Text>
+              </TouchableHighlight>
 
-            <TouchableHighlight style={getStyles().submit} underlayColor="#fff" onPress={() => this.setState(
-                {
-                  ...this.state,
-                  showCamera: true
-                }
-            )}>
-              <Text style={getStyles().submitText}>Upload photo</Text>
-            </TouchableHighlight>
+              <TouchableHighlight
+                style={getStyles().submit}
+                underlayColor="#fff"
+                onPress={() =>
+                  this.setState({
+                    ...this.state,
+                    showCamera: true,
+                  })
+                }>
+                <Text style={getStyles().submitText}>Upload photo</Text>
+              </TouchableHighlight>
 
-            <GoOnButton />
-          </Form>
-        </Content>
-      </Container>
+              <GoOnButton />
+            </Form>
+          </Content>
+        </Container>
+      </>
     );
-
-
   }
 
   takePicture = async () => {
     if (this.camera) {
-      const options = { quality: 0.5, base64: true };
+      const options = {quality: 0.5, base64: true};
       const data = await this.camera.takePictureAsync(options);
       console.log(data.uri);
       this.setState({
         ...this.state,
         showCamera: false,
-        photo: data.uri
-      })
+        photo: data.uri,
+      });
     }
   };
 }
