@@ -8,16 +8,21 @@
 
 import React, {useState} from 'react';
 import {
-    Container,
-    Header,
-    Left,
-    Body,
-    Right,
-    Button,
-    Icon,
-    Title, Item, Label, Input, Textarea, Form,
+  Container,
+  Header,
+  Left,
+  Body,
+  Right,
+  Button,
+  Icon,
+  Title,
+  Item,
+  Label,
+  Input,
+  Textarea,
+  Form,
 } from 'native-base';
-
+import {useNavigation} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import PostList from './Components/PostsList.js';
@@ -45,7 +50,7 @@ import {
   setDarkMode,
   styles,
 } from './Components/StylesImpl';
-import {Token} from "./Utils/Token";
+import {Token} from './Utils/Token';
 
 function HomeScreen({navigation}) {
   return (
@@ -68,7 +73,7 @@ function HomeScreen({navigation}) {
           style={getStyles().submit}
           onPress={() => navigation.navigate('Notifications')}
           underlayColor="#fff">
-          <Text style={getStyles().submitText}>Go to notifications</Text>
+          <Text style={getStyles().submitText}>Go to notifications </Text>
         </TouchableHighlight>
       </View>
     </>
@@ -96,77 +101,78 @@ function NotificationsScreen({navigation}) {
 }
 const Drawer = createDrawerNavigator();
 
-Navbar = ({navigation}) => {
+Navbar = () => {
+  const navigation = useNavigation();
   return (
     <Appbar.Header style={getStyles().appbar}>
       <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
-      <Appbar.Content title="Home page" subtitle="" />
+      <Appbar.Content title="Navigation" subtitle="" />
     </Appbar.Header>
   );
 };
 
 export default class App extends React.Component {
-    constructor(props) {
-        console.log("TOKEN = ", props.token)
-        super(props);
+  constructor(props) {
+    console.log('TOKEN = ', props.token);
+    super(props);
 
-        this.state = {
-            switchValue: window.darkMode,
-            token: new Token()
-        };
-    }
+    this.state = {
+      switchValue: window.darkMode,
+      token: new Token(),
+    };
+  }
 
-    LogInScreen = ({navigation}) => {
-        return (
-            <>
-                <Appbar.Header style={getStyles().appbar}>
-                    <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
-                    <Appbar.Content title="Log In" subtitle="" />
-                </Appbar.Header>
+  LogInScreen = ({navigation}) => {
+    return (
+      <>
+        <Appbar.Header style={getStyles().appbar}>
+          <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
+          <Appbar.Content title="Log In" subtitle="" />
+        </Appbar.Header>
 
-                <View style={getStyles().container}>
-                    <Form>
-                        <Item
-                            floatingLabel
-                            style={{
-                                borderColor: '#29434e',
-                            }}>
-                            <Label>Username</Label>
-                            <Input />
-                        </Item>
-                        <Item
-                            floatingLabel
-                            style={{
-                                borderColor: '#29434e',
-                            }}>
-                            <Label>Password</Label>
-                            <Input />
-                        </Item>
+        <View style={getStyles().container}>
+          <Form>
+            <Item
+              floatingLabel
+              style={{
+                borderColor: '#29434e',
+              }}>
+              <Label>Username</Label>
+              <Input />
+            </Item>
+            <Item
+              floatingLabel
+              style={{
+                borderColor: '#29434e',
+              }}>
+              <Label>Password</Label>
+              <Input />
+            </Item>
 
-                        <TouchableHighlight
-                            style={getStyles().submit}
-                            underlayColor="#fff"
-                            onPress={() => {
-                                this.state.token.setToken("333")
-                                navigation.navigate('Home')
-                            }}>
-                            <Text style={getStyles().submitText}>Log In</Text>
-                        </TouchableHighlight>
+            <TouchableHighlight
+              style={getStyles().submit}
+              underlayColor="#fff"
+              onPress={() => {
+                this.state.token.setToken('333');
+                navigation.navigate('Home');
+              }}>
+              <Text style={getStyles().submitText}>Log In</Text>
+            </TouchableHighlight>
 
-                        <TouchableHighlight
-                            style={getStyles().submit}
-                            underlayColor="#fff"
-                            onPress={() => {
-                                this.state.token.setToken("333")
-                                navigation.navigate('Home')
-                            }}>
-                            <Text style={getStyles().submitText}>Sign Up</Text>
-                        </TouchableHighlight>
-                    </Form>
-                </View>
-            </>
-        );
-    }
+            <TouchableHighlight
+              style={getStyles().submit}
+              underlayColor="#fff"
+              onPress={() => {
+                this.state.token.setToken('333');
+                navigation.navigate('Home');
+              }}>
+              <Text style={getStyles().submitText}>Sign Up</Text>
+            </TouchableHighlight>
+          </Form>
+        </View>
+      </>
+    );
+  };
 
   handleToggleSwich = () => {
     this.setState(state => ({
@@ -179,26 +185,24 @@ export default class App extends React.Component {
   };
   item = ({navigation}) => {
     //to jest cały boczne menu aplikacji
-      let logInOutButton = !this.state.token.isValid()
-            ? (
-                <ListItem
-                    icon
-                    style={{marginTop: 30}}
-                    onPress={() => navigation.navigate('LogIn')}>
-                    <Text style={getStyles().submitText}>Log In</Text>
-                </ListItem>
-            )
-            : (
-                <ListItem
-                    icon
-                    style={{marginTop: 30}}
-                    onPress={() => {
-                        this.state.token.clear()
-                        navigation.navigate('Home')
-                    }}>
-                    <Text style={getStyles().submitText}>Log Out</Text>
-                </ListItem>
-            )
+    let logInOutButton = !this.state.token.isValid() ? (
+      <ListItem
+        icon
+        style={{marginTop: 30}}
+        onPress={() => navigation.navigate('LogIn')}>
+        <Text style={getStyles().submitText}>Log In</Text>
+      </ListItem>
+    ) : (
+      <ListItem
+        icon
+        style={{marginTop: 30}}
+        onPress={() => {
+          this.state.token.clear();
+          navigation.navigate('Home');
+        }}>
+        <Text style={getStyles().submitText}>Log Out</Text>
+      </ListItem>
+    );
 
     return (
       <>
@@ -271,8 +275,14 @@ export default class App extends React.Component {
           <Drawer.Screen name="LogIn" component={this.LogInScreen} />
           <Drawer.Screen name="Home" component={HomeScreen} />
           <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-          <Drawer.Screen name="CreatePost" component={() => new CreatePost({token: this.state.token})} />
-          <Drawer.Screen name="PostList" component={() => new PostList({token: this.state.token})} />
+          <Drawer.Screen
+            name="CreatePost"
+            component={() => new CreatePost({token: this.state.token})}
+          />
+          <Drawer.Screen
+            name="PostList"
+            component={() => new PostList({token: this.state.token})}
+          />
         </Drawer.Navigator>
       </NavigationContainer>
     );

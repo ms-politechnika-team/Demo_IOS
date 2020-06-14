@@ -12,7 +12,7 @@ Navbar = () => {
   return (
     <Appbar.Header style={getStyles().appbar}>
       <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
-      <Appbar.Content title="Home page" subtitle="" />
+      <Appbar.Content title="Navigation" subtitle="" />
     </Appbar.Header>
   );
 };
