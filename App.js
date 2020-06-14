@@ -8,14 +8,14 @@
 
 import React, {useState} from 'react';
 import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Title,
+    Container,
+    Header,
+    Left,
+    Body,
+    Right,
+    Button,
+    Icon,
+    Title, Item, Label, Input, Textarea, Form,
 } from 'native-base';
 
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -45,6 +45,7 @@ import {
   setDarkMode,
   styles,
 } from './Components/StylesImpl';
+import {Token} from "./Utils/Token";
 
 function HomeScreen({navigation}) {
   return (
@@ -105,9 +106,67 @@ Navbar = ({navigation}) => {
 };
 
 export default class App extends React.Component {
-  state = {
-    swichValue: window.darkMode,
-  };
+    constructor(props) {
+        console.log("TOKEN = ", props.token)
+        super(props);
+
+        this.state = {
+            switchValue: window.darkMode,
+            token: new Token()
+        };
+    }
+
+    LogInScreen = ({navigation}) => {
+        return (
+            <>
+                <Appbar.Header style={getStyles().appbar}>
+                    <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
+                    <Appbar.Content title="Log In" subtitle="" />
+                </Appbar.Header>
+
+                <View style={getStyles().container}>
+                    <Form>
+                        <Item
+                            floatingLabel
+                            style={{
+                                borderColor: '#29434e',
+                            }}>
+                            <Label>Username</Label>
+                            <Input />
+                        </Item>
+                        <Item
+                            floatingLabel
+                            style={{
+                                borderColor: '#29434e',
+                            }}>
+                            <Label>Password</Label>
+                            <Input />
+                        </Item>
+
+                        <TouchableHighlight
+                            style={getStyles().submit}
+                            underlayColor="#fff"
+                            onPress={() => {
+                                this.state.token.setToken("333")
+                                navigation.navigate('Home')
+                            }}>
+                            <Text style={getStyles().submitText}>Log In</Text>
+                        </TouchableHighlight>
+
+                        <TouchableHighlight
+                            style={getStyles().submit}
+                            underlayColor="#fff"
+                            onPress={() => {
+                                this.state.token.setToken("333")
+                                navigation.navigate('Home')
+                            }}>
+                            <Text style={getStyles().submitText}>Sign Up</Text>
+                        </TouchableHighlight>
+                    </Form>
+                </View>
+            </>
+        );
+    }
 
   handleToggleSwich = () => {
     this.setState(state => ({
@@ -120,6 +179,27 @@ export default class App extends React.Component {
   };
   item = ({navigation}) => {
     //to jest cały boczne menu aplikacji
+      let logInOutButton = !this.state.token.isValid()
+            ? (
+                <ListItem
+                    icon
+                    style={{marginTop: 30}}
+                    onPress={() => navigation.navigate('LogIn')}>
+                    <Text style={getStyles().submitText}>Log In</Text>
+                </ListItem>
+            )
+            : (
+                <ListItem
+                    icon
+                    style={{marginTop: 30}}
+                    onPress={() => {
+                        this.state.token.clear()
+                        navigation.navigate('Home')
+                    }}>
+                    <Text style={getStyles().submitText}>Log Out</Text>
+                </ListItem>
+            )
+
     return (
       <>
         {/* <TouchableHighlight
@@ -138,10 +218,12 @@ export default class App extends React.Component {
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
               onValueChange={this.handleToggleSwich}
-              value={this.state.swichValue}
+              value={this.state.switchValue}
             />
           </Right>
         </ListItem>
+
+        {logInOutButton}
 
         <ListItem
           icon
@@ -186,10 +268,11 @@ export default class App extends React.Component {
             activeTintColor: '#ffeb3b',
           }}
           initialRouteName="Home">
+          <Drawer.Screen name="LogIn" component={this.LogInScreen} />
           <Drawer.Screen name="Home" component={HomeScreen} />
           <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-          <Drawer.Screen name="CreatePost" component={CreatePost} />
-          <Drawer.Screen name="PostList" component={PostList} />
+          <Drawer.Screen name="CreatePost" component={() => new CreatePost({token: this.state.token})} />
+          <Drawer.Screen name="PostList" component={() => new PostList({token: this.state.token})} />
         </Drawer.Navigator>
       </NavigationContainer>
     );
