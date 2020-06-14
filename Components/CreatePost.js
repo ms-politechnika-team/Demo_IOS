@@ -21,7 +21,7 @@ import {TextInput} from 'react-native';
 import {styles} from './StylesImpl.js';
 import {cameraStyles, getStyles} from './StylesImpl';
 import {RNCamera} from 'react-native-camera';
-
+import {useNavigation} from '@react-navigation/native';
 function GoOnButton({navigation}) {
   return (
     <TouchableHighlight
@@ -32,7 +32,8 @@ function GoOnButton({navigation}) {
     </TouchableHighlight>
   );
 }
-Navbar = ({navigation}) => {
+Navbar = () => {
+  const navigation = useNavigation();
   return (
     <Appbar.Header style={getStyles().appbar}>
       <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />

@@ -18,7 +18,6 @@ import {
   Title,
 } from 'native-base';
 
-//import {Router, Scene} from 'react-native-router-flux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import PostList from './Components/PostsList.js';
@@ -48,9 +47,6 @@ import {
 } from './Components/StylesImpl';
 
 function HomeScreen({navigation}) {
-  // panel HOME
-  // const [isEnabled, setIsEnabled] = useState(false);
-  // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
     <>
       <Appbar.Header style={getStyles().appbar}>
@@ -98,6 +94,15 @@ function NotificationsScreen({navigation}) {
   );
 }
 const Drawer = createDrawerNavigator();
+
+Navbar = ({navigation}) => {
+  return (
+    <Appbar.Header style={getStyles().appbar}>
+      <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
+      <Appbar.Content title="Home page" subtitle="" />
+    </Appbar.Header>
+  );
+};
 
 export default class App extends React.Component {
   state = {
@@ -162,7 +167,7 @@ export default class App extends React.Component {
         <ListItem
           icon
           style={{marginTop: 30}}
-          onPress={() => navigation.navigate('PostList')}>
+          onPress={() => navigation.navigate('PostList', {nav: 'cs'})}>
           <Text style={getStyles().submitText}>Post List</Text>
         </ListItem>
       </>

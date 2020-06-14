@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import {Text, Image, View, StyleSheet, ScrollView} from 'react-native';
 import Post from './Post.js';
 import {NavigationContainer} from '@react-navigation/native';
-
+import {useNavigation} from '@react-navigation/native';
 import {getStyles} from './StylesImpl';
 import {Container} from 'native-base';
 import {Appbar} from 'react-native-paper';
 
-Navbar = ({navigation}) => {
+Navbar = () => {
+  const navigation = useNavigation();
   return (
     <Appbar.Header style={getStyles().appbar}>
       <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
