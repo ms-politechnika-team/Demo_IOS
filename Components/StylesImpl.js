@@ -49,12 +49,13 @@ const darkStyles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: '#1b1b1b',
+    borderColor: 'black',
   },
   postCard: {
     backgroundColor: '#6d6d6d',
   },
   submit: {
-    marginRight: 40,
+    marginRight: 70,
     marginLeft: 70,
     marginTop: 10,
     paddingTop: 20,

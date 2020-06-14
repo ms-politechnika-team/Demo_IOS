@@ -12,7 +12,7 @@ Navbar = () => {
   return (
     <Appbar.Header style={getStyles().appbar}>
       <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
-      <Appbar.Content title="Home page" subtitle="" />
+      <Appbar.Content title="Navigation" subtitle="" />
     </Appbar.Header>
   );
 };
@@ -25,13 +25,14 @@ class PostList extends Component {
   componentDidMount() {
     this.fetchData();
   }
+  //http://newsapi.org/v2/top-headlines?country=pl&category=technology&apiKey=2728c77ea2384d4ab5010b84c19b27d3
   fetchData = async () => {
     const response = await fetch(
-      'http://newsapi.org/v2/top-headlines?country=pl&category=technology&apiKey=2728c77ea2384d4ab5010b84c19b27d3',
+      'http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/newest',
     );
     const json = await response.json();
 
-    this.setState({news: json.articles});
+    this.setState({news: json});
     console.log(this.state.news);
   };
 
@@ -47,13 +48,13 @@ class PostList extends Component {
               // </View>
               <Post
                 style={getStyles().scrollView}
-                key={item.url}
-                name={item.author}
-                id={item.author}
-                text={item.content}
-                data={item.publishedAt}
+                key={item.id}
+                name={item.id} //id
+                id={item.id} //id
+                text={item.comment} //comment
+                data={item.createdAt} //createdAt
                 title={item.title}
-                img={item.urlToImage}
+                img={item.fileUrl} //file url
               />
             ))}
           </ScrollView>

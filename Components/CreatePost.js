@@ -32,25 +32,26 @@ function GoOnButton({navigation}) {
     </TouchableHighlight>
   );
 }
+
 Navbar = () => {
   const navigation = useNavigation();
   return (
     <Appbar.Header style={getStyles().appbar}>
       <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
-      <Appbar.Content title="Home page" subtitle="" />
+      <Appbar.Content title="Navigation" subtitle="" />
     </Appbar.Header>
   );
 };
 
 export default class CreatePost extends Component {
   constructor(props) {
-    console.log("TOKEN App = ", props.token.getToken())
+    console.log('TOKEN App = ', props.token.getToken());
     super(props);
 
     this.state = {
       showCamera: false,
       photo: null,
-      token: props.token
+      token: props.token,
     };
   }
   render() {
@@ -95,6 +96,7 @@ export default class CreatePost extends Component {
     return (
       <>
         <Navbar />
+
         <Container style={getStyles().container}>
           <Content padder>
             <Form>
@@ -129,7 +131,9 @@ export default class CreatePost extends Component {
               <TouchableHighlight
                 style={getStyles().submit}
                 underlayColor="#fff"
-                onPress={() => {console.log(this.state.token)}}>
+                onPress={() => {
+                  console.log(this.state.token);
+                }}>
                 <Text style={getStyles().submitText}>Send Post</Text>
               </TouchableHighlight>
 

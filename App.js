@@ -8,20 +8,26 @@
 
 import React, {useState} from 'react';
 import {
-    Container,
-    Header,
-    Left,
-    Body,
-    Right,
-    Button,
-    Icon,
-    Title, Item, Label, Input, Textarea, Form,
+  Container,
+  Header,
+  Left,
+  Body,
+  Right,
+  Button,
+  Icon,
+  Title,
+  Item,
+  Label,
+  Input,
+  Textarea,
+  Form,
 } from 'native-base';
-
+import {useNavigation} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import PostList from './Components/PostsList.js';
 import CreatePost from './Components/CreatePost.js';
+import Unlogged from './Components/Unlogged.js';
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -69,12 +75,13 @@ function HomeScreen({navigation}) {
           style={getStyles().submit}
           onPress={() => navigation.navigate('Notifications')}
           underlayColor="#fff">
-          <Text style={getStyles().submitText}>Go to notifications</Text>
+          <Text style={getStyles().submitText}>Go to notifications </Text>
         </TouchableHighlight>
       </View>
     </>
   );
 }
+
 function NotificationsScreen({navigation}) {
   // panel NOTIFICATOPNS
   return (
@@ -89,27 +96,29 @@ function NotificationsScreen({navigation}) {
           style={getStyles().submit}
           onPress={() => navigation.navigate('CreatePost')}
           underlayColor="#fff">
-          <Text style={getStyles().submitText}>Create Post</Text>
+          <Text style={getStyles().submitText}>Login to access</Text>
         </TouchableHighlight>
       </View>
     </>
   );
 }
+
 const Drawer = createDrawerNavigator();
 
-Navbar = ({navigation}) => {
+Navbar = () => {
+  const navigation = useNavigation();
   return (
     <Appbar.Header style={getStyles().appbar}>
       <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
-      <Appbar.Content title="Home page" subtitle="" />
+      <Appbar.Content title="Navigation" subtitle="" />
     </Appbar.Header>
   );
 };
 
 export default class App extends React.Component {
-    constructor(props) {
-        console.log("TOKEN = ", props.token)
-        super(props);
+  constructor(props) {
+    console.log('TOKEN = ', props.token);
+    super(props);
 
         this.state = {
             switchValue: window.darkMode,
@@ -128,24 +137,24 @@ export default class App extends React.Component {
                     <Appbar.Content title="Log In" subtitle="" />
                 </Appbar.Header>
 
-                <View style={getStyles().container}>
-                    <Form>
-                        <Item
-                            floatingLabel
-                            style={{
-                                borderColor: '#29434e',
-                            }}>
-                            <Label>Username</Label>
-                            <Input onChangeText={(text) => this.state.username = text }/>
-                        </Item>
-                        <Item
-                            floatingLabel
-                            style={{
-                                borderColor: '#29434e',
-                            }}>
-                            <Label>Password</Label>
-                            <Input onChangeText={(text) => this.state.passwd = text }/>
-                        </Item>
+        <View style={getStyles().container}>
+          <Form>
+            <Item
+              floatingLabel
+              style={{
+                borderColor: '#29434e',
+              }}>
+              <Label>Email</Label>
+              <Input onChangeText={(text) => this.state.username = text }/>
+            </Item>
+            <Item
+              floatingLabel
+              style={{
+                borderColor: '#29434e',
+              }}>
+              <Label>Password</Label>
+              <Input secureTextEntry={true} onChangeText={(text) => this.state.passwd = text }/>
+            </Item>
 
                         <TouchableHighlight
                             style={getStyles().submit}
@@ -217,26 +226,31 @@ export default class App extends React.Component {
   };
   item = ({navigation}) => {
     //to jest cały boczne menu aplikacji
-      let logInOutButton = !this.state.token.isValid()
-            ? (
-                <ListItem
-                    icon
-                    style={{marginTop: 30}}
-                    onPress={() => navigation.navigate('LogIn')}>
-                    <Text style={getStyles().submitText}>Log In</Text>
-                </ListItem>
-            )
-            : (
-                <ListItem
-                    icon
-                    style={{marginTop: 30}}
-                    onPress={() => {
-                        this.state.token.clear()
-                        navigation.navigate('Home')
-                    }}>
-                    <Text style={getStyles().submitText}>Log Out</Text>
-                </ListItem>
-            )
+    let logInOutButton = !this.state.token.isValid() ? (
+      <ListItem
+        icon
+        onPress={() => {
+          navigation.navigate('LogIn');
+        }}>
+        <Left />
+        <Body>
+          <Text>LogIn</Text>
+        </Body>
+        <Right>
+          <Icon active style={{fontSize: 30}} name="contact" />
+        </Right>
+      </ListItem>
+    ) : (
+      <ListItem
+        icon
+        style={{marginTop: 30}}
+        onPress={() => {
+          this.state.token.clear();
+          navigation.navigate('Home');
+        }}>
+        <Text style={getStyles().submitText}>Log Out</Text>
+      </ListItem>
+    );
 
     return (
       <>
@@ -290,6 +304,12 @@ export default class App extends React.Component {
           onPress={() => navigation.navigate('PostList', {nav: 'cs'})}>
           <Text style={getStyles().submitText}>Post List</Text>
         </ListItem>
+        <ListItem
+          icon
+          style={{marginTop: 30}}
+          onPress={() => navigation.navigate('Unlogged')}>
+          <Text style={getStyles().submitText}>Unlogged</Text>
+        </ListItem>
       </>
     );
   };
@@ -309,8 +329,15 @@ export default class App extends React.Component {
           <Drawer.Screen name="LogIn" component={this.LogInScreen} />
           <Drawer.Screen name="Home" component={HomeScreen} />
           <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-          <Drawer.Screen name="CreatePost" component={() => new CreatePost({token: this.state.token})} />
-          <Drawer.Screen name="PostList" component={() => new PostList({token: this.state.token})} />
+          <Drawer.Screen name="Unlogged" component={Unlogged} />
+          <Drawer.Screen
+            name="CreatePost"
+            component={() => new CreatePost({token: this.state.token})}
+          />
+          <Drawer.Screen
+            name="PostList"
+            component={() => new PostList({token: this.state.token})}
+          />
         </Drawer.Navigator>
       </NavigationContainer>
     );

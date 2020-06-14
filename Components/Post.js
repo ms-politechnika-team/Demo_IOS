@@ -35,14 +35,9 @@ export default function Post(props) {
         <Card style={getStyles().scrollView}>
           <CardItem style={getStyles().postCard}>
             <Left>
-              <Thumbnail
-                source={{
-                  uri:
-                    'https://www.pinclipart.com/picdir/middle/387-3870193_message-clipart-letter-post-icon-email-unread-png.png',
-                }}
-              />
+              <Icon active style={{fontSize: 50}} name="md-paper" />
               <Body>
-                <Text>Autor - {props.id}</Text>
+                <Text>{props.id}</Text>
                 <Text note>{props.title}</Text>
               </Body>
             </Left>
@@ -50,12 +45,18 @@ export default function Post(props) {
           <CardItem style={getStyles().postCard}>
             <Body>
               <Image
+                style={{
+                  height: 200,
+                  width: 300,
+                  borderRadius: 10,
+                  flex: 1,
+                  resizeMode: 'contain',
+                }}
                 source={{
                   uri: props.img,
                 }}
-                style={{height: 200, width: 300, borderRadius: 10, flex: 1}}
-                resizeMode="cover"
               />
+
               <Text>{props.text}</Text>
             </Body>
           </CardItem>
