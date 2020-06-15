@@ -22,7 +22,7 @@ import {styles} from './StylesImpl.js';
 import {cameraStyles, getStyles} from './StylesImpl';
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
-import {uploadData} from "../Utils/BackendConnection";
+import {uploadData} from '../Utils/BackendConnection';
 function GoOnButton({navigation}) {
   return (
     <TouchableHighlight
@@ -53,7 +53,7 @@ export default class CreatePost extends Component {
       showCamera: false,
       photo: null,
       token: props.token,
-      comment: ""
+      comment: '',
     };
   }
   render() {
@@ -102,23 +102,6 @@ export default class CreatePost extends Component {
         <Container style={getStyles().container}>
           <Content padder>
             <Form>
-              <Item
-                floatingLabel
-                style={{
-                  borderColor: '#29434e',
-                }}>
-                <Label>Username</Label>
-                <Input />
-              </Item>
-              <Item
-                floatingLabel
-                style={{
-                  borderColor: '#29434e',
-                }}>
-                <Label>Password</Label>
-                <Input />
-              </Item>
-
               <Textarea
                 style={{
                   borderRadius: 20,
@@ -129,28 +112,40 @@ export default class CreatePost extends Component {
                 rowSpan={5}
                 bordered
                 placeholder="Textarea"
-                onChangeText={(text) => {this.state.comment = text}}
+                onChangeText={text => {
+                  this.state.comment = text;
+                }}
               />
 
               <TouchableHighlight
                 style={getStyles().submit}
                 underlayColor="#fff"
                 onPress={() => {
-                    Alert.alert("Sending photo", "please wait...", [{text: "OK"}], {cancelable: true})
+                  Alert.alert(
+                    'Sending photo',
+                    'please wait...',
+                    [{text: 'OK'}],
+                    {cancelable: true},
+                  );
                   uploadData(
-                      "http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/create",
-                        this.state.comment,
-                      {
-                        file: {
-                          uri: this.state.photo,
-                          name: this.state.photo.split('/').slice(-1)[0],
-                        }
+                    'http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/create',
+                    this.state.comment,
+                    {
+                      file: {
+                        uri: this.state.photo,
+                        name: this.state.photo.split('/').slice(-1)[0],
                       },
-                      this.state.token.getToken()
-                      ).then(response => {
-                      Alert.alert("Congratulations!", "photo sent...", [{text: "OK"}], {cancelable: true})
-                      console.log(response)
-                  })
+                    },
+                    this.state.token.getToken(),
+                  ).then(response => {
+                    Alert.alert(
+                      'Congratulations!',
+                      'photo sent...',
+                      [{text: 'OK'}],
+                      {cancelable: true},
+                    );
+                    console.log(response);
+                  });
                 }}>
                 <Text style={getStyles().submitText}>Send Post</Text>
               </TouchableHighlight>
