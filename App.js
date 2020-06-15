@@ -327,7 +327,7 @@ export default class App extends React.Component {
           <Drawer.Screen name="Unlogged" component={Unlogged} />
           <Drawer.Screen
             name="CreatePost"
-            component={() => new CreatePost({token: this.state.token})}
+            component={() => this.state.token.isValid() ? new CreatePost({token: this.state.token}) : Unlogged()}
           />
           <Drawer.Screen
             name="PostList"

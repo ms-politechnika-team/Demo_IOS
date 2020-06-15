@@ -38,7 +38,7 @@ export default function Unlogged() {
 
         <TouchableHighlight
           style={getStyles().submit}
-          onPress={() => navigation.navigate('LogInScreen')}
+          onPress={() => navigation.navigate('LogIn')}
           underlayColor="#fff">
           <Text style={getStyles().submitText}>Click to login </Text>
         </TouchableHighlight>
