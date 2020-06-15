@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {getStyles} from './StylesImpl';
 import {Container} from 'native-base';
 import {Appbar} from 'react-native-paper';
+import {fetchMyPosts} from "../Utils/BackendConnection";
 
 Navbar = () => {
   const navigation = useNavigation();
@@ -17,22 +18,41 @@ Navbar = () => {
   );
 };
 
-class PostList extends Component {
-  state = {
-    news: [],
-  };
+export class PostList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      news: [],
+      token: props.token,
+      myPosts: props.myPosts
+    }
+  }
+
+
 
   componentDidMount() {
     this.fetchData();
   }
   //http://newsapi.org/v2/top-headlines?country=pl&category=technology&apiKey=2728c77ea2384d4ab5010b84c19b27d3
   fetchData = async () => {
-    const response = await fetch(
+    const response = !this.state.myPosts ? await fetch(
       'http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/newest',
-    );
-    const json = await response.json();
+    ) : await fetch("http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/my-posts", {
+      headers: {
+        'Content-Type' : "application/json",
+        "Authorization" : `JWT ${this.state.token}`
+      },
+      method: 'GET'
+    });
 
-    this.setState({news: json});
+    let json = await response.json();
+
+    if (typeof json === 'undefined') {
+      json = []
+    }
+
+    this.setState({news: json, token: this.state.token, myPost: this.state.myPosts});
     console.log(this.state.news);
   };
 

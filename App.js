@@ -294,7 +294,13 @@ export default class App extends React.Component {
         <ListItem
           icon
           style={{marginTop: 30}}
-          onPress={() => navigation.navigate('CreatePost')}>
+          onPress={() => {
+              if(this.state.token.isValid()) {
+                  navigation.navigate('CreatePost', {nav: 'cs'})
+              } else {
+                  navigation.navigate('Unlogged', {nav: 'cs'})
+              }
+          }}>
           <Text style={getStyles().submitText}>Create Post</Text>
         </ListItem>
 
@@ -305,6 +311,18 @@ export default class App extends React.Component {
           <Text style={getStyles().submitText}>Post List</Text>
         </ListItem>
 
+          <ListItem
+              icon
+              style={{marginTop: 30}}
+              onPress={() => {
+                  if(this.state.token.isValid()) {
+                      navigation.navigate('MyPosts', {nav: 'cs'})
+                  } else {
+                      navigation.navigate('Unlogged', {nav: 'cs'})
+                  }
+              }}>
+              <Text style={getStyles().submitText}>My Posts</Text>
+          </ListItem>
       </>
     );
   };
@@ -327,11 +345,15 @@ export default class App extends React.Component {
           <Drawer.Screen name="Unlogged" component={Unlogged} />
           <Drawer.Screen
             name="CreatePost"
-            component={() => this.state.token.isValid() ? new CreatePost({token: this.state.token}) : Unlogged()}
+            component={() => new CreatePost({token: this.state.token})}
           />
           <Drawer.Screen
             name="PostList"
-            component={() => new PostList({token: this.state.token})}
+            component={() => new PostList({token: this.state.token, myPosts: false})}
+          />
+          <Drawer.Screen
+            name="MyPosts"
+            component={() => new PostList({token: this.state.token, myPosts: true})}
           />
         </Drawer.Navigator>
       </NavigationContainer>
