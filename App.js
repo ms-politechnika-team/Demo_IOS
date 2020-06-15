@@ -304,12 +304,7 @@ export default class App extends React.Component {
           onPress={() => navigation.navigate('PostList', {nav: 'cs'})}>
           <Text style={getStyles().submitText}>Post List</Text>
         </ListItem>
-        <ListItem
-          icon
-          style={{marginTop: 30}}
-          onPress={() => navigation.navigate('Unlogged')}>
-          <Text style={getStyles().submitText}>Unlogged</Text>
-        </ListItem>
+
       </>
     );
   };
