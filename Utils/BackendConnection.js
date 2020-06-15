@@ -5,27 +5,25 @@ export const uploadData = (url, comment, data, token?) => {
         },
         method: 'POST'
     };
+    const body = new FormData();
 
-    options.body = new FormData();
+    body.append("image", data)
+    body.append("comment", comment)
+
+    console.log(data)
 
     if(token) {
         Object.assign(options.headers, {"Authorization" : `JWT ${token}`})
     }
-    options.body.append("comment", comment)
 
-    for (const key in data) {
-        console.log(key,": ", JSON.stringify(data[key]))
-        options.body.append(key, JSON.stringify(data[key]))
-    }
-
-    console.log(options)
-    return fetch(url, options).then(response => {
+    console.log({...options, body})
+    return fetch(url, {...options, body}).then(response => {
         return response.json()
             .then(responseJson => {
                 //You put some checks here
                 return responseJson;
             });
-    });
+    }).catch(error => console.log(error));
 }
 
 export const fetchData = async (url, token?) => {

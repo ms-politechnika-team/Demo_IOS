@@ -41,7 +41,7 @@ export class PostList extends Component {
     ) : await fetch("http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/my-posts", {
       headers: {
         'Content-Type' : "application/json",
-        "Authorization" : `JWT ${this.state.token}`
+        "Authorization" : `JWT ${this.state.token.getToken()}`
       },
       method: 'GET'
     });

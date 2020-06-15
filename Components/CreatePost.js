@@ -141,10 +141,9 @@ export default class CreatePost extends Component {
                       "http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/create",
                         this.state.comment,
                       {
-                        file: {
                           uri: this.state.photo,
+                          type: "image/jpg",
                           name: this.state.photo.split('/').slice(-1)[0],
-                        }
                       },
                       this.state.token.getToken()
                       ).then(response => {
