@@ -15,7 +15,7 @@ import {
   Button,
   Text,
 } from 'native-base';
-import {TouchableHighlight, TouchableOpacity, View} from 'react-native';
+import {TouchableHighlight, TouchableOpacity, View, Alert} from 'react-native';
 
 import {TextInput} from 'react-native';
 import {styles} from './StylesImpl.js';
@@ -136,7 +136,7 @@ export default class CreatePost extends Component {
                 style={getStyles().submit}
                 underlayColor="#fff"
                 onPress={() => {
-
+                    Alert.alert("Sending photo", "please wait...", [{text: "OK"}], {cancelable: true})
                   uploadData(
                       "http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/create",
                         this.state.comment,
@@ -148,7 +148,8 @@ export default class CreatePost extends Component {
                       },
                       this.state.token.getToken()
                       ).then(response => {
-                        console.log(response)
+                      Alert.alert("Congratulations!", "photo sent...", [{text: "OK"}], {cancelable: true})
+                      console.log(response)
                   })
                 }}>
                 <Text style={getStyles().submitText}>Send Post</Text>
