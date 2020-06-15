@@ -1,4 +1,4 @@
-export const uploadData = (url, data, token?) => {
+export const uploadData = (url, comment, data, token?) => {
     const options = {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -11,12 +11,21 @@ export const uploadData = (url, data, token?) => {
     if(token) {
         Object.assign(options.headers, {"Authorization" : `JWT ${token}`})
     }
+    options.body.append("comment", comment)
 
     for (const key in data) {
-        options.body.append(key, data[key]);
+        console.log(key,": ", JSON.stringify(data[key]))
+        options.body.append(key, JSON.stringify(data[key]))
     }
 
-    return fetch(url, options)
+    console.log(options)
+    return fetch(url, options).then(response => {
+        return response.json()
+            .then(responseJson => {
+                //You put some checks here
+                return responseJson;
+            });
+    });
 }
 
 export const fetchData = async (url, token?) => {

@@ -22,6 +22,7 @@ import {styles} from './StylesImpl.js';
 import {cameraStyles, getStyles} from './StylesImpl';
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
+import {uploadData} from "../Utils/BackendConnection";
 function GoOnButton({navigation}) {
   return (
     <TouchableHighlight
@@ -52,6 +53,7 @@ export default class CreatePost extends Component {
       showCamera: false,
       photo: null,
       token: props.token,
+      comment: ""
     };
   }
   render() {
@@ -123,16 +125,31 @@ export default class CreatePost extends Component {
                   borderColor: '#29434e',
                   marginTop: 20,
                 }}
+                defaultValue={this.state.comment}
                 rowSpan={5}
                 bordered
                 placeholder="Textarea"
+                onChangeText={(text) => {this.state.comment = text}}
               />
 
               <TouchableHighlight
                 style={getStyles().submit}
                 underlayColor="#fff"
                 onPress={() => {
-                  console.log(this.state.token);
+
+                  uploadData(
+                      "http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api/posts/create",
+                        this.state.comment,
+                      {
+                        file: {
+                          uri: this.state.photo,
+                          name: this.state.photo.split('/').slice(-1)[0],
+                        }
+                      },
+                      this.state.token.getToken()
+                      ).then(response => {
+                        console.log(response)
+                  })
                 }}>
                 <Text style={getStyles().submitText}>Send Post</Text>
               </TouchableHighlight>
