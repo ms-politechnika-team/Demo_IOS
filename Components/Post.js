@@ -13,6 +13,7 @@ import {
   Left,
   Body,
 } from 'native-base';
+import {StyleSheet, View, TouchableHighlight, Switch} from 'react-native';
 
 import {getStyles} from './StylesImpl';
 
@@ -30,45 +31,62 @@ import {getStyles} from './StylesImpl';
 
 export default function Post(props) {
   return (
-    <Container style={getStyles().scrollView}>
-      <Content>
-        <Card style={getStyles().scrollView}>
-          <CardItem style={getStyles().postCard}>
-            <Left>
-              <Icon active style={{fontSize: 50}} name="md-paper" />
-              <Body>
-                <Text>{props.id}</Text>
-                <Text note>{props.title}</Text>
-              </Body>
-            </Left>
-          </CardItem>
-          <CardItem style={getStyles().postCard}>
+    <Content>
+      <Card style={getStyles().scrollView}>
+        <CardItem style={getStyles().postCard}>
+          <Left>
+            <Icon active style={{fontSize: 50}} name="md-paper" />
             <Body>
-              <Image
-                style={{
-                  height: 200,
-                  width: 300,
-                  borderRadius: 10,
-                  flex: 1,
-                  resizeMode: 'contain',
-                }}
-                source={{
-                  uri: props.img,
-                }}
-              />
-
-              <Text>{props.text}</Text>
+              <Text>{props.id}</Text>
+              <Text note>{props.title}</Text>
             </Body>
-          </CardItem>
-          <CardItem style={getStyles().postCard}>
-            <Left>
-              <Button transparent textStyle={{color: '#ffeb3b'}}>
-                <Text style={{color: '#ffeb3b'}}>{props.data}</Text>
-              </Button>
-            </Left>
-          </CardItem>
-        </Card>
-      </Content>
-    </Container>
+          </Left>
+        </CardItem>
+        <CardItem style={getStyles().postCard}>
+          <Body>
+            <Image
+              style={{
+                height: 200,
+                width: 300,
+                borderRadius: 10,
+                flex: 1,
+                resizeMode: 'contain',
+              }}
+              source={{
+                uri: props.img,
+              }}
+            />
+
+            <Text>{props.text}</Text>
+          </Body>
+        </CardItem>
+        <CardItem style={getStyles().postCard}>
+          <Left>
+            <Button transparent textStyle={{color: '#ffeb3b'}}>
+              <Text style={{color: '#ffeb3b'}}>{props.data}</Text>
+            </Button>
+          </Left>
+        </CardItem>
+      </Card>
+    </Content>
+  );
+}
+
+function LoadMore(props) {
+  return (
+    <Content>
+      <Card style={getStyles().scrollView}>
+        <CardItem style={getStyles().postCard}>
+          <Body>
+            <TouchableHighlight
+              style={getStyles().submit}
+              //onPress={() => navigation.navigate('LogIn')}
+              underlayColor="#fff">
+              <Text style={getStyles().submitText}>Click to login </Text>
+            </TouchableHighlight>
+          </Body>
+        </CardItem>
+      </Card>
+    </Content>
   );
 }

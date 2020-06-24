@@ -34,12 +34,13 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import {
-    StyleSheet,
-    View,
-    Text,
-    Image,
-    TouchableHighlight,
-    Switch, Alert,
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableHighlight,
+  Switch,
+  Alert,
 } from 'react-native';
 import {ListItem} from 'native-base';
 import {Appbar} from 'react-native-paper';
@@ -51,15 +52,20 @@ import {
   setDarkMode,
   styles,
 } from './Components/StylesImpl';
-import {Token} from "./Utils/Token";
-import {fetchData, fetchDataPost, fetchPosts, uploadData} from "./Utils/BackendConnection";
+import {Token} from './Utils/Token';
+import {
+  fetchData,
+  fetchDataPost,
+  fetchPosts,
+  uploadData,
+} from './Utils/BackendConnection';
 
 function HomeScreen({navigation}) {
   return (
     <>
       <Appbar.Header style={getStyles().appbar}>
         <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
-        <Appbar.Content title="Home page" subtitle="" />
+        <Appbar.Content title="Home page!" subtitle="" />
       </Appbar.Header>
 
       <View style={getStyles().container}>
@@ -120,22 +126,22 @@ export default class App extends React.Component {
     console.log('TOKEN = ', props.token);
     super(props);
 
-        this.state = {
-            switchValue: window.darkMode,
-            token: new Token(),
-            username: "",
-            passwd: ""
-        };
-    }
+    this.state = {
+      switchValue: window.darkMode,
+      token: new Token(),
+      username: '',
+      passwd: '',
+    };
+  }
 
-    LogInScreen = ({navigation}) => {
-        const url = `http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api`;
-        return (
-            <>
-                <Appbar.Header style={getStyles().appbar}>
-                    <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
-                    <Appbar.Content title="Log In" subtitle="" />
-                </Appbar.Header>
+  LogInScreen = ({navigation}) => {
+    const url = `http://ec2-54-160-124-180.compute-1.amazonaws.com:2137/api`;
+    return (
+      <>
+        <Appbar.Header style={getStyles().appbar}>
+          <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
+          <Appbar.Content title="Log In" subtitle="" />
+        </Appbar.Header>
 
         <View style={getStyles().container}>
           <Form>
@@ -145,7 +151,7 @@ export default class App extends React.Component {
                 borderColor: '#29434e',
               }}>
               <Label>Email</Label>
-              <Input onChangeText={(text) => this.state.username = text }/>
+              <Input onChangeText={text => (this.state.username = text)} />
             </Item>
             <Item
               floatingLabel
@@ -153,67 +159,78 @@ export default class App extends React.Component {
                 borderColor: '#29434e',
               }}>
               <Label>Password</Label>
-              <Input secureTextEntry={true} onChangeText={(text) => this.state.passwd = text }/>
+              <Input
+                secureTextEntry={true}
+                onChangeText={text => (this.state.passwd = text)}
+              />
             </Item>
 
-                        <TouchableHighlight
-                            style={getStyles().submit}
-                            underlayColor="#fff"
-                            onPress={() => {
-                                fetchDataPost(
-                                    `${url}/users/signin`,
-                                    {
-                                        email: this.state.username,
-                                        password: this.state.passwd
-                                    }
-                                ).then((response) => {
-                                    if (typeof response.token !== 'undefined') {
-                                        this.state.token.setToken(response.token)
-                                        navigation.navigate('Home')
-                                    } else {
-                                        Alert.alert("Cannot Log In", response.stack, [{text: "OK"}], {cancelable: true})
-                                    }
-                                })
-                            }}>
-                            <Text style={getStyles().submitText}>Log In</Text>
-                        </TouchableHighlight>
+            <TouchableHighlight
+              style={getStyles().submit}
+              underlayColor="#fff"
+              onPress={() => {
+                fetchDataPost(`${url}/users/signin`, {
+                  email: this.state.username,
+                  password: this.state.passwd,
+                }).then(response => {
+                  if (typeof response.token !== 'undefined') {
+                    this.state.token.setToken(response.token);
+                    navigation.navigate('Home');
+                  } else {
+                    Alert.alert(
+                      'Cannot Log In',
+                      response.stack,
+                      [{text: 'OK'}],
+                      {cancelable: true},
+                    );
+                  }
+                });
+              }}>
+              <Text style={getStyles().submitText}>Log In</Text>
+            </TouchableHighlight>
 
-                        <TouchableHighlight
-                            style={getStyles().submit}
-                            underlayColor="#fff"
-                            onPress={() => {
-                                fetchDataPost(
-                                    `${url}/users/signup`,
-                                    {
-                                        email: this.state.username,
-                                        password: this.state.passwd
-                                    }
-                                ).then((response) => {
-                                    if (typeof response.email !== 'undefined') {
-                                        fetchDataPost(`${url}/users/signin`,
-                                            {
-                                                email: response.email,
-                                                password: response.password
-                                            }).then(response => {
-                                            if (typeof response.token !== 'undefined') {
-                                                this.state.token.setToken(response.token)
-                                                navigation.navigate('Home')
-                                            } else {
-                                                Alert.alert("Cannot Sign Up", response.stack, [{text: "OK"}], {cancelable: true})
-                                            }
-                                        })
-                                    } else {
-                                        Alert.alert("Cannot Sign Up", response.stack, [{text: "OK"}], {cancelable: true})
-                                    }
-                                })
-                            }}>
-                            <Text style={getStyles().submitText}>Sign Up</Text>
-                        </TouchableHighlight>
-                    </Form>
-                </View>
-            </>
-        );
-    }
+            <TouchableHighlight
+              style={getStyles().submit}
+              underlayColor="#fff"
+              onPress={() => {
+                fetchDataPost(`${url}/users/signup`, {
+                  email: this.state.username,
+                  password: this.state.passwd,
+                }).then(response => {
+                  if (typeof response.email !== 'undefined') {
+                    fetchDataPost(`${url}/users/signin`, {
+                      email: response.email,
+                      password: response.password,
+                    }).then(response => {
+                      if (typeof response.token !== 'undefined') {
+                        this.state.token.setToken(response.token);
+                        navigation.navigate('Home');
+                      } else {
+                        Alert.alert(
+                          'Cannot Sign Up',
+                          response.stack,
+                          [{text: 'OK'}],
+                          {cancelable: true},
+                        );
+                      }
+                    });
+                  } else {
+                    Alert.alert(
+                      'Cannot Sign Up',
+                      response.stack,
+                      [{text: 'OK'}],
+                      {cancelable: true},
+                    );
+                  }
+                });
+              }}>
+              <Text style={getStyles().submitText}>Sign Up</Text>
+            </TouchableHighlight>
+          </Form>
+        </View>
+      </>
+    );
+  };
 
   handleToggleSwich = () => {
     this.setState(state => ({
@@ -295,11 +312,11 @@ export default class App extends React.Component {
           icon
           style={{marginTop: 30}}
           onPress={() => {
-              if(this.state.token.isValid()) {
-                  navigation.navigate('CreatePost', {nav: 'cs'})
-              } else {
-                  navigation.navigate('Unlogged', {nav: 'cs'})
-              }
+            if (this.state.token.isValid()) {
+              navigation.navigate('CreatePost', {nav: 'cs'});
+            } else {
+              navigation.navigate('Unlogged', {nav: 'cs'});
+            }
           }}>
           <Text style={getStyles().submitText}>Create Post</Text>
         </ListItem>
@@ -311,18 +328,18 @@ export default class App extends React.Component {
           <Text style={getStyles().submitText}>Post List</Text>
         </ListItem>
 
-          <ListItem
-              icon
-              style={{marginTop: 30}}
-              onPress={() => {
-                  if(this.state.token.isValid()) {
-                      navigation.navigate('MyPosts', {nav: 'cs'})
-                  } else {
-                      navigation.navigate('Unlogged', {nav: 'cs'})
-                  }
-              }}>
-              <Text style={getStyles().submitText}>My Posts</Text>
-          </ListItem>
+        <ListItem
+          icon
+          style={{marginTop: 30}}
+          onPress={() => {
+            if (this.state.token.isValid()) {
+              navigation.navigate('MyPosts', {nav: 'cs'});
+            } else {
+              navigation.navigate('Unlogged', {nav: 'cs'});
+            }
+          }}>
+          <Text style={getStyles().submitText}>My Posts</Text>
+        </ListItem>
       </>
     );
   };
@@ -349,11 +366,15 @@ export default class App extends React.Component {
           />
           <Drawer.Screen
             name="PostList"
-            component={() => new PostList({token: this.state.token, myPosts: false})}
+            component={() =>
+              new PostList({token: this.state.token, myPosts: false})
+            }
           />
           <Drawer.Screen
             name="MyPosts"
-            component={() => new PostList({token: this.state.token, myPosts: true})}
+            component={() =>
+              new PostList({token: this.state.token, myPosts: true})
+            }
           />
         </Drawer.Navigator>
       </NavigationContainer>
